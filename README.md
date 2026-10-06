@@ -1,4 +1,4 @@
-# DJ Axiom — Portfolio & Booking App
+# DJ Neva Misa Beat — Portfolio & Booking App
 
 A modern, fully responsive DJ booking and portfolio web application built with **Next.js 15**, **TypeScript**, **Tailwind CSS**, and **Framer Motion**.
 

@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Cpu, Speaker, Sliders, Lightbulb, Star, ExternalLink } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Cpu, Speaker, Sliders, Star, ExternalLink } from "lucide-react";
+import { Tag as CarbonTag } from "@carbon/react";
 
-type GearCategory = "Controllers" | "Mixers" | "Audio" | "Lighting" | "Software";
+type GearCategory = "Controllers" | "Audio" | "Software";
 
 interface GearItem {
   id: string;
@@ -26,8 +26,7 @@ const gear: GearItem[] = [
     name: "CDJ-3000",
     brand: "Pioneer DJ",
     category: "Controllers",
-    description:
-      "The industry-standard professional multi-player. Found in every major club worldwide.",
+    description: "The industry-standard professional multi-player. Found in every major club worldwide.",
     specs: ["9-inch HD touchscreen", "High-res 96kHz/32-bit audio", "NXS2 & Rekordbox connectivity", "Slip mode & Beat Sync"],
     role: "Primary Deck",
     isOwned: true,
@@ -35,25 +34,11 @@ const gear: GearItem[] = [
     link: "https://www.pioneerdj.com/cdj-3000",
   },
   {
-    id: "g2",
-    name: "DJM-A9",
-    brand: "Pioneer DJ",
-    category: "Mixers",
-    description:
-      "Flagship 4-channel club mixer with studio-grade sound and built-in effects.",
-    specs: ["4-channel design", "32-bit internal processing", "Built-in Beat FX + Sound Color FX", "Bluetooth audio capability"],
-    role: "Main Mixer",
-    isOwned: true,
-    recommendedFor: "Professional DJs",
-    link: "https://www.pioneerdj.com/djm-a9",
-  },
-  {
     id: "g3",
     name: "Technics SL-1210MK7",
     brand: "Technics",
     category: "Controllers",
-    description:
-      "Legendary direct-drive turntable for scratch DJs and vinyl purists.",
+    description: "Legendary direct-drive turntable for scratch DJs and vinyl purists.",
     specs: ["High-torque direct-drive", "±8% pitch control", "Reverse playback", "Ultra-low rumble"],
     role: "Scratch / Vinyl",
     isOwned: true,
@@ -64,8 +49,7 @@ const gear: GearItem[] = [
     name: "DDJ-FLX10",
     brand: "Pioneer DJ",
     category: "Controllers",
-    description:
-      "All-in-one 4-channel controller bridging Rekordbox and Serato workflows.",
+    description: "All-in-one 4-channel controller bridging Rekordbox and Serato workflows.",
     specs: ["4-deck control", "Large performance pads", "Dual USB", "Works with Rekordbox + Serato"],
     role: "Mobile / Backup",
     isOwned: true,
@@ -76,68 +60,39 @@ const gear: GearItem[] = [
     name: "QSC K12.2",
     brand: "QSC",
     category: "Audio",
-    description:
-      "2000W powered PA speaker delivering crystal-clear, loud, and punchy sound.",
+    description: "2000W powered PA speaker delivering crystal-clear, loud, and punchy sound.",
     specs: ["2000W Class D amp", "12-inch woofer", "1.4-inch compression driver", "DSP onboard"],
     role: "PA System",
     isOwned: true,
     recommendedFor: "Indoor events up to 500 guests",
   },
   {
-    id: "g6",
-    name: "Pioneer DJ RMXBOOTH",
-    brand: "Pioneer DJ",
-    category: "Mixers",
-    description: "Professional booth monitor for accurate reference monitoring on stage.",
-    specs: ["Class-D amplifier", "4-inch driver + tweeter", "100–20kHz response", "XLR input"],
-    role: "Booth Monitor",
-    isOwned: true,
-    recommendedFor: "All live setups",
-  },
-  {
     id: "g7",
     name: "Rekordbox + Serato DJ Pro",
     brand: "Pioneer DJ / Serato",
     category: "Software",
-    description:
-      "Dual-software workflow for maximum versatility — analyze, prepare, and perform.",
+    description: "Dual-software workflow for maximum versatility — analyze, prepare, and perform.",
     specs: ["AI key/BPM detection", "DVS scratch support", "Cloud library sync", "Hardware integration"],
     role: "DJ Software",
     isOwned: true,
     recommendedFor: "All DJ types",
   },
-  {
-    id: "g8",
-    name: "Chauvet DJ Intimspot 355Z",
-    brand: "Chauvet DJ",
-    category: "Lighting",
-    description:
-      "Motorized zoom intelligent fixture delivering dynamic beams and aerial effects.",
-    specs: ["355° pan / 265° tilt", "3-30° zoom", "16-color wheel", "DMX512 + standalone"],
-    role: "Moving Head",
-    isOwned: true,
-    recommendedFor: "Private events & small venues",
-  },
 ];
 
-const categories: GearCategory[] = ["Controllers", "Mixers", "Audio", "Lighting", "Software"];
+const categories: GearCategory[] = ["Controllers", "Audio", "Software"];
 
 function CategoryIcon({ category }: { category: GearCategory }) {
   switch (category) {
-    case "Controllers": return <Sliders className="w-4 h-4" />;
-    case "Mixers":      return <Sliders className="w-4 h-4" />;
-    case "Audio":       return <Speaker className="w-4 h-4" />;
-    case "Lighting":    return <Lightbulb className="w-4 h-4" />;
-    case "Software":    return <Cpu className="w-4 h-4" />;
+    case "Controllers": return <Sliders size={14} />;
+    case "Audio":       return <Speaker size={14} />;
+    case "Software":    return <Cpu size={14} />;
   }
 }
 
-const categoryColors: Record<GearCategory, string> = {
-  Controllers: "text-gold-400 bg-gold-400/10 border-gold-400/25",
-  Mixers:      "text-violet-400 bg-violet-500/10 border-violet-500/25",
-  Audio:       "text-teal-300 bg-teal-500/8 border-teal-400/20",
-  Lighting:    "text-amber-300 bg-amber-500/8 border-amber-400/20",
-  Software:    "text-blue-300 bg-blue-500/8 border-blue-400/20",
+const categoryTagType: Record<GearCategory, "purple" | "teal" | "blue"> = {
+  Controllers: "purple",
+  Audio:       "teal",
+  Software:    "blue",
 };
 
 export default function GearSection() {
@@ -147,43 +102,93 @@ export default function GearSection() {
     activeCategory === "All" ? gear : gear.filter((g) => g.category === activeCategory);
 
   return (
-    <section id="gear" className="relative py-32 bg-dark-900">
+    <section
+      id="gear"
+      style={{
+        position: "relative",
+        padding: "8rem 0",
+        backgroundColor: "var(--bg-surface)",
+      }}
+    >
       {/* subtle grid */}
-      <div className="absolute inset-0 cyber-grid opacity-20" aria-hidden />
+      <div
+        aria-hidden
+        className="cyber-grid"
+        style={{ position: "absolute", inset: 0, opacity: 0.2 }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="section-inner" style={{ position: "relative", zIndex: 1 }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          style={{ textAlign: "center", marginBottom: "3rem" }}
         >
-          <span className="text-xs font-mono uppercase tracking-[0.3em] text-gold-500 mb-3 block">
+          <span style={{
+            fontSize: "0.6875rem",
+            fontFamily: "monospace",
+            textTransform: "uppercase",
+            letterSpacing: "0.3em",
+            color: "var(--accent-gold)",
+            marginBottom: "0.75rem",
+            display: "block",
+          }}>
             The Rig
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-wide text-white mb-4">
-            DJ Gear &amp; <span style={{ color: "#C9A84C" }}>Setup</span>
+          <h2 style={{
+            fontSize: "clamp(2rem, 6vw, 3rem)",
+            fontWeight: 700,
+            letterSpacing: "0.04em",
+            color: "#ffffff",
+            margin: 0,
+          }}>
+            DJ Gear &amp; <span style={{ color: "var(--accent-gold)" }}>Setup</span>
           </h2>
-          <p className="max-w-xl mx-auto text-slate-400 font-light leading-relaxed">
+          <p style={{
+            maxWidth: "38rem",
+            margin: "1rem auto 0",
+            color: "#94a3b8",
+            fontWeight: 300,
+            lineHeight: 1.7,
+          }}>
             Professional-grade hardware and software meticulously selected for maximum
             reliability, sound quality, and creative freedom.
           </p>
         </motion.div>
 
         {/* Category filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <div style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "0.5rem",
+          marginBottom: "2.5rem",
+        }}>
           {(["All", ...categories] as (GearCategory | "All")[]).map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={cn(
-                "flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-all duration-300",
-                activeCategory === cat
-                  ? "bg-gold-400 border-gold-400 text-dark-950 shadow-[0_0_14px_rgba(201,168,76,0.45)]"
-                  : "border-white/8 text-slate-400 hover:border-gold-400/35 hover:text-gold-400 bg-white/4"
-              )}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.375rem",
+                padding: "0.375rem 1rem",
+                borderRadius: "9999px",
+                fontSize: "0.875rem",
+                fontWeight: 500,
+                border: activeCategory === cat
+                  ? "1px solid var(--accent-gold)"
+                  : "1px solid rgba(255,255,255,0.08)",
+                background: activeCategory === cat
+                  ? "var(--accent-gold)"
+                  : "rgba(255,255,255,0.04)",
+                color: activeCategory === cat ? "#080608" : "#94a3b8",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                boxShadow: activeCategory === cat ? "0 0 14px rgba(201,168,76,0.45)" : "none",
+              }}
             >
               {cat !== "All" && <CategoryIcon category={cat as GearCategory} />}
               {cat}
@@ -192,7 +197,11 @@ export default function GearSection() {
         </div>
 
         {/* Gear grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 260px), 1fr))",
+          gap: "1.25rem",
+        }}>
           {filtered.map((item, i) => (
             <motion.div
               key={item.id}
@@ -200,52 +209,72 @@ export default function GearSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.06 }}
-              className="glass-card neon-border rounded-xl p-5 flex flex-col gap-4 hover:neon-border-purple transition-all duration-300 group"
+              className="glass-card neon-border"
+              style={{
+                borderRadius: "0.75rem",
+                padding: "1.25rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+              }}
             >
               {/* Top */}
-              <div className="flex items-start justify-between gap-2">
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.5rem" }}>
                 <div>
-                  <span
-                    className={cn(
-                      "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border mb-2",
-                      categoryColors[item.category]
-                    )}
-                  >
-                    <CategoryIcon category={item.category} />
-                    {item.category}
-                  </span>
-                  <h3 className="font-semibold text-white/90 group-hover:text-gold-400 transition-colors leading-tight tracking-wide">
+                  <div style={{ marginBottom: "0.5rem" }}>
+                    <CarbonTag type={categoryTagType[item.category]} size="sm">
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
+                        <CategoryIcon category={item.category} />
+                        {item.category}
+                      </span>
+                    </CarbonTag>
+                  </div>
+                  <h3 style={{
+                    fontWeight: 600,
+                    color: "rgba(255,255,255,0.9)",
+                    lineHeight: 1.3,
+                    letterSpacing: "0.04em",
+                    margin: 0,
+                  }}>
                     {item.name}
                   </h3>
-                  <p className="text-xs text-slate-500">{item.brand}</p>
+                  <p style={{ fontSize: "0.75rem", color: "#64748b", marginTop: "0.125rem" }}>{item.brand}</p>
                 </div>
                 {item.isOwned && (
-                  <Star className="w-4 h-4 text-amber-400 shrink-0 mt-1" fill="currentColor" />
+                  <Star size={16} style={{ color: "#f59e0b", flexShrink: 0, marginTop: "0.25rem" }} fill="currentColor" />
                 )}
               </div>
 
-              <p className="text-sm text-slate-400 leading-relaxed flex-1">{item.description}</p>
+              <p style={{ fontSize: "0.875rem", color: "#94a3b8", lineHeight: 1.65, flex: 1, margin: 0 }}>
+                {item.description}
+              </p>
 
               {/* Specs */}
-              <ul className="space-y-1">
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.25rem" }}>
                 {item.specs.map((spec) => (
-                  <li key={spec} className="flex items-center gap-2 text-xs text-slate-500">
-                    <span className="w-1 h-1 rounded-full bg-gold-400/50 shrink-0" />
+                  <li key={spec} style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.75rem", color: "#64748b" }}>
+                    <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(201,168,76,0.5)", flexShrink: 0 }} />
                     {spec}
                   </li>
                 ))}
               </ul>
 
               {/* Role + Recommended */}
-              <div className="border-t border-white/5 pt-3 space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-500">Role:</span>
-                  <span className="text-gold-400 font-medium">{item.role}</span>
+              <div style={{
+                borderTop: "1px solid rgba(255,255,255,0.05)",
+                paddingTop: "0.75rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.25rem",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "0.75rem" }}>
+                  <span style={{ color: "#64748b" }}>Role:</span>
+                  <span style={{ color: "var(--accent-gold)", fontWeight: 500 }}>{item.role}</span>
                 </div>
                 {item.recommendedFor && (
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-500">Best for:</span>
-                    <span className="text-slate-300">{item.recommendedFor}</span>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "0.75rem" }}>
+                    <span style={{ color: "#64748b" }}>Best for:</span>
+                    <span style={{ color: "#cbd5e1" }}>{item.recommendedFor}</span>
                   </div>
                 )}
               </div>
@@ -255,9 +284,19 @@ export default function GearSection() {
                   href={item.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-1.5 text-xs font-medium text-gold-500/70 hover:text-gold-400 transition-colors"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.375rem",
+                    fontSize: "0.75rem",
+                    fontWeight: 500,
+                    color: "rgba(201,168,76,0.7)",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                  }}
                 >
-                  <ExternalLink className="w-3 h-3" />
+                  <ExternalLink size={12} />
                   View Product
                 </a>
               )}

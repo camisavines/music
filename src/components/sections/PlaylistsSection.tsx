@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Music2, ExternalLink, Play } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ExternalLink } from "lucide-react";
 
 type VibeCategory = "All" | "House" | "Hip-Hop" | "Lounge" | "Wedding" | "Afrobeats" | "Techno";
 
@@ -14,122 +13,86 @@ interface Playlist {
   vibe: Exclude<VibeCategory, "All">;
   trackCount: number;
   duration: string;
-  appleMusicId: string; // Apple Music playlist embed ID
-  coverColor: string;   // gradient fallback
+  embedPath: string;
   tags: string[];
 }
 
 const playlists: Playlist[] = [
   {
     id: "p1",
-    title: "Peak Hour House",
+    title: "Neo-Soul",
     description:
       "Deep melodic house to underground bangers — the perfect club set arc from 1AM to close.",
     vibe: "House",
     trackCount: 42,
     duration: "3h 10m",
-    appleMusicId: "pl.u-d2b0BBXTdR5N",
-    coverColor: "from-cyan-500/20 to-blue-500/20",
+    embedPath: "playlist/neo-soul/pl.u-r2yBARGuP99Zdvp",
     tags: ["Deep House", "Melodic Techno", "Afro House"],
-  },
-  {
-    id: "p2",
-    title: "Hip-Hop Essentials",
-    description:
-      "Old-school golden era to modern trap, R&B blends, and party anthems that never miss.",
-    vibe: "Hip-Hop",
-    trackCount: 55,
-    duration: "3h 45m",
-    appleMusicId: "pl.u-d2b0BBXTdR5N",
-    coverColor: "from-purple-500/20 to-pink-500/20",
-    tags: ["Trap", "R&B", "Golden Era", "Drill"],
-  },
-  {
-    id: "p3",
-    title: "Sunset Lounge",
-    description:
-      "Smooth, sophisticated house and nu-jazz perfect for cocktail hours and rooftop sessions.",
-    vibe: "Lounge",
-    trackCount: 30,
-    duration: "2h 15m",
-    appleMusicId: "pl.u-d2b0BBXTdR5N",
-    coverColor: "from-amber-500/20 to-orange-500/20",
-    tags: ["Nu-Jazz", "Chill House", "Bossa Nova"],
-  },
-  {
-    id: "p4",
-    title: "Wedding Classics & Bangers",
-    description:
-      "Timeless hits blended with modern anthems — guaranteed dance floor from first dance to last call.",
-    vibe: "Wedding",
-    trackCount: 68,
-    duration: "5h 00m",
-    appleMusicId: "pl.u-d2b0BBXTdR5N",
-    coverColor: "from-rose-500/20 to-pink-400/20",
-    tags: ["Top 40", "80s Classics", "Pop", "Soul"],
-  },
-  {
-    id: "p5",
-    title: "Afrobeats Fire",
-    description:
-      "The hottest Afrobeats, Amapiano, and Afro-fusion — high-energy, infectious rhythms.",
-    vibe: "Afrobeats",
-    trackCount: 38,
-    duration: "2h 30m",
-    appleMusicId: "pl.u-d2b0BBXTdR5N",
-    coverColor: "from-green-500/20 to-teal-500/20",
-    tags: ["Amapiano", "Afro-Fusion", "Highlife"],
-  },
-  {
-    id: "p6",
-    title: "Industrial Techno",
-    description:
-      "Dark, relentless, hypnotic — a journey through the harder side of electronic music.",
-    vibe: "Techno",
-    trackCount: 35,
-    duration: "3h 00m",
-    appleMusicId: "pl.u-d2b0BBXTdR5N",
-    coverColor: "from-slate-600/20 to-zinc-700/20",
-    tags: ["Industrial", "Dark Techno", "Berlin"],
   },
 ];
 
 const vibes: VibeCategory[] = ["All", "House", "Hip-Hop", "Lounge", "Wedding", "Afrobeats", "Techno"];
 
 const vibeColors: Record<Exclude<VibeCategory, "All">, string> = {
-  House:      "text-gold-400",
-  "Hip-Hop":  "text-violet-400",
-  Lounge:     "text-amber-300",
-  Wedding:    "text-rose-300",
-  Afrobeats:  "text-teal-300",
-  Techno:     "text-slate-400",
+  House:      "var(--accent-gold)",
+  "Hip-Hop":  "var(--accent-violet)",
+  Lounge:     "#fbbf24",
+  Wedding:    "#fda4af",
+  Afrobeats:  "#5eead4",
+  Techno:     "#94a3b8",
 };
 
 export default function PlaylistsSection() {
-  const [activeVibe, setActiveVibe]       = useState<VibeCategory>("All");
-  const [openEmbed, setOpenEmbed]         = useState<string | null>(null);
+  const [activeVibe, setActiveVibe] = useState<VibeCategory>("All");
 
   const filtered =
     activeVibe === "All" ? playlists : playlists.filter((p) => p.vibe === activeVibe);
 
   return (
-    <section id="playlists" className="relative py-28 bg-dark-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      id="playlists"
+      style={{
+        position: "relative",
+        padding: "7rem 0",
+        backgroundColor: "var(--bg-base)",
+      }}
+    >
+      <div className="section-inner">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          style={{ textAlign: "center", marginBottom: "3rem" }}
         >
-          <span className="text-xs font-mono uppercase tracking-[0.3em] text-gold-500 mb-3 block">
+          <span style={{
+            fontSize: "0.6875rem",
+            fontFamily: "monospace",
+            textTransform: "uppercase",
+            letterSpacing: "0.3em",
+            color: "var(--accent-gold)",
+            marginBottom: "0.75rem",
+            display: "block",
+          }}>
             Music
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-wide text-white mb-4">
-            Curated <span style={{ color: "#C9A84C" }}>Playlists</span>
+          <h2 style={{
+            fontSize: "clamp(2rem, 6vw, 3rem)",
+            fontWeight: 700,
+            letterSpacing: "0.04em",
+            color: "#ffffff",
+            margin: 0,
+          }}>
+            Curated <span style={{ color: "var(--accent-gold)" }}>Playlists</span>
           </h2>
-          <p className="max-w-xl mx-auto text-slate-400 font-light leading-relaxed">
+          <p style={{
+            maxWidth: "38rem",
+            margin: "1rem auto 0",
+            color: "#94a3b8",
+            fontWeight: 300,
+            lineHeight: 1.7,
+          }}>
             Handcrafted sets for every mood and occasion — from wedding first
             dances to after-hours club sets. Preview and share with your guests
             before the event.
@@ -137,17 +100,33 @@ export default function PlaylistsSection() {
         </motion.div>
 
         {/* Vibe filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <div style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "0.5rem",
+          marginBottom: "2.5rem",
+        }}>
           {vibes.map((vibe) => (
             <button
               key={vibe}
               onClick={() => setActiveVibe(vibe)}
-              className={cn(
-                "px-4 py-1.5 rounded-full text-sm font-medium border transition-all duration-300",
-                activeVibe === vibe
-                  ? "bg-gold-400 border-gold-400 text-dark-950 shadow-[0_0_14px_rgba(201,168,76,0.45)]"
-                  : "border-white/8 text-slate-400 hover:border-gold-400/35 hover:text-gold-400 bg-white/4"
-              )}
+              style={{
+                padding: "0.375rem 1rem",
+                borderRadius: "9999px",
+                fontSize: "0.875rem",
+                fontWeight: 500,
+                border: activeVibe === vibe
+                  ? "1px solid var(--accent-gold)"
+                  : "1px solid rgba(255,255,255,0.08)",
+                background: activeVibe === vibe
+                  ? "var(--accent-gold)"
+                  : "rgba(255,255,255,0.04)",
+                color: activeVibe === vibe ? "#080608" : "#94a3b8",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                boxShadow: activeVibe === vibe ? "0 0 14px rgba(201,168,76,0.45)" : "none",
+              }}
             >
               {vibe}
             </button>
@@ -155,7 +134,11 @@ export default function PlaylistsSection() {
         </div>
 
         {/* Playlist grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))",
+          gap: "1.25rem",
+        }}>
           {filtered.map((playlist, i) => (
             <motion.div
               key={playlist.id}
@@ -163,80 +146,91 @@ export default function PlaylistsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.07 }}
-              className="group glass-card neon-border rounded-xl overflow-hidden hover:neon-border-purple transition-all duration-300 flex flex-col"
+              className="glass-card neon-border"
+              style={{
+                borderRadius: "0.75rem",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+              }}
             >
-              {/* Cover art / gradient */}
-              <div className={cn("relative h-32 bg-gradient-to-br flex items-center justify-center", playlist.coverColor)}>
-                <Music2 className="w-12 h-12 text-white/20" />
-                <button
-                  onClick={() => setOpenEmbed(openEmbed === playlist.id ? null : playlist.id)}
-                  className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 transition-all duration-300"
-                  aria-label={`Play ${playlist.title}`}
-                >
-                  <div
-                    className={cn(
-                      "w-12 h-12 rounded-full flex items-center justify-center bg-white/20 backdrop-blur-sm border border-white/30 transition-transform duration-300",
-                      openEmbed === playlist.id ? "scale-110" : "scale-100 group-hover:scale-110"
-                    )}
-                  >
-                    <Play className="w-5 h-5 text-white" fill="currentColor" />
-                  </div>
-                </button>
-                <span
-                  className={cn(
-                    "absolute top-3 right-3 text-xs font-bold uppercase tracking-wider",
-                    vibeColors[playlist.vibe]
-                  )}
-                >
-                  {playlist.vibe}
-                </span>
-              </div>
-
-              {/* Apple Music Embed */}
-              {openEmbed === playlist.id && (
-                <div className="border-t border-white/5">
-                  <iframe
-                    allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
-                    height="175"
-                    style={{ width: "100%", overflow: "hidden", background: "transparent" }}
-                    sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-                    src={`https://embed.music.apple.com/us/playlist/${playlist.appleMusicId}`}
-                    title={`Apple Music: ${playlist.title}`}
-                  />
-                </div>
-              )}
+              {/* Apple Music embed */}
+              <iframe
+                allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+                height="450"
+                style={{ width: "100%", overflow: "hidden", background: "transparent", display: "block" }}
+                sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+                src={`https://embed.music.apple.com/us/${playlist.embedPath}`}
+                title={`Apple Music: ${playlist.title}`}
+              />
 
               {/* Info */}
-              <div className="p-5 flex flex-col gap-3 flex-1">
+              <div style={{
+                padding: "1.25rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.75rem",
+                borderTop: "1px solid rgba(255,255,255,0.05)",
+              }}>
                 <div>
-                  <h3 className="font-semibold text-white/90 group-hover:text-gold-400 transition-colors tracking-wide">
-                    {playlist.title}
-                  </h3>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.5rem" }}>
+                    <h3 style={{
+                      fontWeight: 600,
+                      color: "rgba(255,255,255,0.9)",
+                      letterSpacing: "0.04em",
+                      margin: 0,
+                    }}>
+                      {playlist.title}
+                    </h3>
+                    <span style={{
+                      fontSize: "0.6875rem",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.1em",
+                      flexShrink: 0,
+                      color: vibeColors[playlist.vibe],
+                    }}>
+                      {playlist.vibe}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: "0.75rem", color: "#64748b", marginTop: "0.125rem" }}>
                     {playlist.trackCount} tracks · {playlist.duration}
                   </p>
                 </div>
-                <p className="text-sm text-slate-400 leading-relaxed flex-1">
+                <p style={{ fontSize: "0.875rem", color: "#94a3b8", lineHeight: 1.65, margin: 0 }}>
                   {playlist.description}
                 </p>
-                <div className="flex flex-wrap gap-1.5 pt-1">
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.375rem" }}>
                   {playlist.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-0.5 rounded-full text-xs bg-white/5 text-slate-500 border border-white/5"
-                    >
+                    <span key={tag} style={{
+                      padding: "0.125rem 0.5rem",
+                      borderRadius: "9999px",
+                      fontSize: "0.75rem",
+                      background: "rgba(255,255,255,0.05)",
+                      color: "#64748b",
+                      border: "1px solid rgba(255,255,255,0.05)",
+                    }}>
                       {tag}
                     </span>
                   ))}
                 </div>
-
                 <a
-                  href={`https://music.apple.com/us/playlist/${playlist.appleMusicId}`}
+                  href={`https://music.apple.com/us/${playlist.embedPath}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-1.5 text-xs font-medium text-gold-500/70 hover:text-gold-400 transition-colors mt-1"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.375rem",
+                    fontSize: "0.75rem",
+                    fontWeight: 500,
+                    color: "rgba(201,168,76,0.7)",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                  }}
                 >
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink size={14} />
                   Open in Apple Music
                 </a>
               </div>

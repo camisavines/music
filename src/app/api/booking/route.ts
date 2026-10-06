@@ -18,8 +18,8 @@ async function sendEmail({
   if (!apiKey) throw new Error("RESEND_API_KEY is not configured");
 
   const from = process.env.DJ_EMAIL
-    ? `DJ Axiom <bookings@${process.env.DJ_EMAIL.split("@")[1]}>`
-    : "DJ Axiom <bookings@djaxiom.com>";
+    ? `DJ Neva Misa Beat <bookings@${process.env.DJ_EMAIL.split("@")[1]}>`
+    : "DJ Neva Misa Beat <bookings@djNeva Misa Beat.com>";
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
   try {
     await sendEmail({
       to:      data.email,
-      subject: `Booking Inquiry Received — DJ Axiom`,
+      subject: `Booking Inquiry Received — DJ Neva Misa Beat`,
       html:    clientConfirmationEmail(data),
     });
   } catch (err) {
@@ -125,7 +125,7 @@ export async function POST(req: NextRequest) {
   // 4. Send DJ SMS alert
   if (djPhone) {
     const smsBody =
-      `🎧 New DJ Axiom Booking!\n` +
+      `🎧 New DJ Neva Misa Beat Booking!\n` +
       `From: ${data.fullName} (${data.phone})\n` +
       `Event: ${data.eventType} on ${data.eventDate} @ ${data.eventTime}\n` +
       `Venue: ${data.venueName}, ${data.venueAddress}\n` +

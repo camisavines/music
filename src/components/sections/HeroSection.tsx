@@ -1,19 +1,32 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowDown, Calendar, MapPin, Users } from "lucide-react";
-import Button from "@/components/ui/Button";
+import { Button } from "@carbon/react";
 
 // ─── Animated waveform ────────────────────────────────────────────────────────
 function Waveform({ bars = 32 }: { bars?: number }) {
   return (
-    <div className="flex items-end gap-[3px] h-14 overflow-hidden" aria-hidden>
+    <div
+      aria-hidden
+      style={{
+        display: "flex",
+        alignItems: "flex-end",
+        gap: "3px",
+        height: "3.5rem",
+        overflow: "hidden",
+        width: "100%",
+      }}
+    >
       {Array.from({ length: bars }).map((_, i) => (
         <motion.div
           key={i}
-          className="wave-bar flex-1 min-w-[3px] rounded-sm"
+          className="wave-bar"
           style={{
-            // Gradient shifts gold → violet to span both audience aesthetics
+            flex: 1,
+            minWidth: "3px",
+            borderRadius: "2px",
             background: `linear-gradient(to top, rgba(201,168,76,0.9), rgba(124,58,237,0.6))`,
             transformOrigin: "bottom",
           }}
@@ -32,23 +45,20 @@ function Waveform({ bars = 32 }: { bars?: number }) {
 
 // ─── Stats row ────────────────────────────────────────────────────────────────
 const stats = [
-  { icon: Calendar, value: "500+", label: "Events Played" },
-  { icon: MapPin,   value: "30+",  label: "Cities Worldwide" },
-  { icon: Users,    value: "2M+",  label: "Crowd Reached" },
+  { icon: Calendar, value: "5+",  label: "Events Played" },
+  { icon: MapPin,   value: "30+", label: "Cities Worldwide" },
+  { icon: Users,    value: "2M+", label: "Crowd Reached" },
 ];
 
 // ─── Motion variants ──────────────────────────────────────────────────────────
 const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.13, delayChildren: 0.4 },
-  },
+  hidden:  { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.13, delayChildren: 0.4 } },
 };
 
 const itemVariants = {
-  hidden:   { opacity: 0, y: 28 },
-  visible:  { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+  hidden:  { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -59,140 +69,258 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-dark-950"
+      style={{
+        position: "relative",
+        minHeight: "100svh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        overflow: "hidden",
+        backgroundColor: "var(--bg-base)",
+      }}
     >
-      {/*
-       * ── Hero background image ──────────────────────────────────────────────
-       * Replace the Unsplash URL below with your own photo when ready.
-       * Recommended: dramatic stage lighting, moody crowd, or abstract light
-       * art — minimum 1920 × 1080 px.
-       * To use a local file instead, move it to public/images/hero-bg.jpg and
-       * swap the backgroundImage value to: url('/images/hero-bg.jpg')
-       */}
+      {/* Hero background */}
       <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1920&q=80')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
         aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: "url('/images/gallery/IMG_1231.JPG')",
+          backgroundSize: "cover",
+          backgroundPosition: "top center",
+          backgroundRepeat: "no-repeat"
+        }}
       >
-        {/* Multi-stop gradient: opaque at top (nav), eases to semi-transparent
-            mid-frame so the image shows through, then solid at the bottom so
-            it blends smoothly into the next section. */}
         <div
-          className="absolute inset-0"
           style={{
+            position: "absolute",
+            inset: 0,
             background:
-              "linear-gradient(to bottom, rgba(8,6,8,0.85) 0%, rgba(8,6,8,0.55) 35%, rgba(8,6,8,0.65) 65%, rgba(8,6,8,0.97) 100%)",
+              "linear-gradient(to bottom, rgba(8,6,8,0.50) 0%, rgba(8,6,8,0.55) 100%",
+              // "linear-gradient(to bottom, rgba(8,6,8,0.85) 0%, rgba(8,6,8,0.55) 10%, rgba(8,6,8,0.15) 90%, rgba(8,6,8,0.99) 100%)",
           }}
         />
-        {/* Warm vignette around edges for depth */}
         <div
-          className="absolute inset-0"
           style={{
+            position: "absolute",
+            inset: 0,
             background:
               "radial-gradient(ellipse 110% 90% at 50% 50%, transparent 40%, rgba(8,6,8,0.7) 100%)",
           }}
         />
       </div>
 
-      {/* Subtle cyber grid — very low opacity on top of image */}
-      <div className="absolute inset-0 cyber-grid opacity-20" aria-hidden />
-
-      {/* Gold ambient glow — upper centre */}
+      {/* Cyber grid overlay */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[340px] pointer-events-none"
+        aria-hidden
+        className="cyber-grid"
+        style={{ position: "absolute", inset: 0, opacity: 0.2 }}
+      />
+
+      {/* Gold ambient glow */}
+      <div
+        aria-hidden
         style={{
-          background:
-            "radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%)",
+          position: "absolute",
+          top: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "min(900px, 100vw)",
+          height: "340px",
+          background: "radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%)",
           filter: "blur(40px)",
+          pointerEvents: "none",
         }}
-        aria-hidden
-      />
-      {/* Violet ambient glow — lower left */}
-      <div
-        className="absolute bottom-1/4 left-1/4 w-[500px] h-[400px] pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse, rgba(124,58,237,0.05) 0%, transparent 70%)",
-          filter: "blur(60px)",
-        }}
-        aria-hidden
       />
 
-      {/* Scan line — slowed down for elegance */}
+      {/* Scan line */}
       <div
-        className="absolute left-0 right-0 h-px animate-scan pointer-events-none"
+        aria-hidden
+        className="animate-scan"
         style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          height: "1px",
           background:
             "linear-gradient(to right, transparent, rgba(201,168,76,0.18) 30%, rgba(201,168,76,0.18) 70%, transparent)",
+          pointerEvents: "none",
         }}
-        aria-hidden
       />
 
       {/* ── Content ── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20 flex flex-col items-center text-center">
+      <div
+        className="section-inner"
+        style={{
+          position: "relative",
+          zIndex: 10,
+          paddingTop: "7rem",
+          paddingBottom: "5rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-col items-center gap-8"
+          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2rem" }}
         >
           {/* Status badge */}
           <motion.div variants={itemVariants}>
-            <span className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full glass neon-border text-xs font-semibold tracking-[0.2em] uppercase text-gold-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse-slow inline-block" />
-              Available for Bookings · 2025
+            <span
+              className="glass neon-border"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.625rem",
+                padding: "0.5rem 1.25rem",
+                borderRadius: "9999px",
+                fontSize: "0.6875rem",
+                fontWeight: 600,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "var(--accent-gold)",
+              }}
+            >
+              <span
+                className="animate-pulse-slow"
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  backgroundColor: "var(--accent-gold)",
+                  display: "inline-block",
+                }}
+              />
+              Available for Bookings · 2027
             </span>
           </motion.div>
 
-          {/* Main heading — generous tracking for elegance */}
-          <motion.div variants={itemVariants} className="space-y-4">
-            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[108px] font-black tracking-wide leading-none">
-              <span className="block text-white/95 tracking-widest font-light text-2xl sm:text-3xl mb-2 uppercase"
-                    style={{ letterSpacing: "0.55em" }}>
+          {/* DJ Profile Photo */}
+          <motion.div variants={itemVariants}>
+            <div
+              style={{
+                position: "relative",
+                width: "clamp(120px, 20vw, 170px)",
+                height: "clamp(120px, 20vw, 170px)",
+                borderRadius: "50%",
+                padding: "4px",
+                background: "linear-gradient(135deg, rgba(201,168,76,0.8), rgba(124,58,237,0.5), rgba(201,168,76,0.2))",
+                boxShadow: "0 0 30px rgba(201,168,76,0.25), 0 0 60px rgba(124,58,237,0.15)",
+              }}
+            >
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  src="/images/djmisa.JPG"
+                  alt="DJ Misa"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 140px, 170px"
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center 20%",
+                  }}
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Main heading */}
+          <motion.div variants={itemVariants}>
+            <h1
+              style={{
+                fontWeight: 900,
+                letterSpacing: "0.06em",
+                lineHeight: 1,
+                margin: 0,
+                fontSize: "clamp(3rem, 12vw, 7rem)",
+              }}
+            >
+              <span
+                style={{
+                  display: "block",
+                  color: "rgba(255,255,255,0.95)",
+                  letterSpacing: "0.55em",
+                  fontWeight: 300,
+                  fontSize: "clamp(0.875rem, 3vw, 1.5rem)",
+                  marginBottom: "0.5rem",
+                  textTransform: "uppercase",
+                }}
+              >
                 DJ
               </span>
-              <span
-                className="block text-glow-cyan"
-                style={{ color: "#C9A84C", letterSpacing: "0.06em" }}
-              >
-                AXIOM
+              <span style={{ color: "#ffffff" }}>
+                  misa
               </span>
             </h1>
-            <p className="text-xs sm:text-sm font-mono uppercase tracking-[0.45em] text-slate-400/80">
+            <p
+              style={{
+                // fontFamily: "monospace",
+                fontSize: "clamp(0.625rem, 1.5vw, 0.75rem)",
+                textTransform: "uppercase",
+                letterSpacing: "0.45em",
+                color: "rgba(148,163,184,0.8)",
+                marginTop: "0.75rem",
+              }}
+            >
               Clubs &nbsp;·&nbsp; Festivals &nbsp;·&nbsp; Weddings &nbsp;·&nbsp; Corporate
             </p>
           </motion.div>
 
           {/* Waveform */}
-          <motion.div variants={itemVariants} className="w-full max-w-md opacity-80">
+          <motion.div
+            variants={itemVariants}
+            style={{ width: "100%", maxWidth: "28rem", opacity: 0.8 }}
+          >
             <Waveform bars={38} />
           </motion.div>
 
-          {/* Tagline — dual-audience inclusive copy */}
+          {/* Tagline */}
           <motion.p
             variants={itemVariants}
-            className="max-w-lg text-base sm:text-lg text-slate-300/80 leading-relaxed font-light"
-            style={{ letterSpacing: "0.01em" }}
+            style={{
+              maxWidth: "34rem",
+              fontSize: "clamp(0.9375rem, 2.5vw, 1.125rem)",
+              color: "rgba(203,213,225,0.8)",
+              lineHeight: 1.7,
+              fontWeight: 300,
+              letterSpacing: "0.01em",
+              margin: 0,
+            }}
           >
             From intimate wedding receptions and boardroom galas to sold-out
             festival stages — world-class sound, atmosphere, and craft for every
             occasion.
           </motion.p>
 
-          {/* CTAs — refined, paired */}
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3.5">
-            <Button size="lg" onClick={scrollToBooking}>
-              <Calendar className="w-4 h-4" />
+          {/* CTAs */}
+          <motion.div
+            variants={itemVariants}
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "0.875rem",
+            }}
+          >
+            <Button kind="primary" size="lg" onClick={scrollToBooking}>
+              <Calendar size={16} style={{ marginRight: "0.5rem" }} />
               Reserve Your Date
             </Button>
             <Button
+              kind="tertiary"
               size="lg"
-              variant="outline"
               onClick={() =>
                 document.getElementById("events")?.scrollIntoView({ behavior: "smooth" })
               }
@@ -201,34 +329,88 @@ export default function HeroSection() {
             </Button>
           </motion.div>
 
-          {/* Stats — spaced and subdued for elegance */}
-          <motion.div
+          {/* Stats */}
+          {/* <motion.div
             variants={itemVariants}
-            className="grid grid-cols-3 gap-8 sm:gap-16 mt-6 w-full max-w-xs sm:max-w-sm"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "2rem",
+              marginTop: "1.5rem",
+              width: "100%",
+              maxWidth: "22rem",
+            }}
           >
             {stats.map(({ icon: Icon, value, label }) => (
-              <div key={label} className="flex flex-col items-center gap-1.5">
-                <Icon className="w-3.5 h-3.5 text-gold-400/70 mb-0.5" strokeWidth={1.5} />
-                <span className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              <div
+                key={label}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "0.375rem",
+                }}
+              >
+                <Icon
+                  size={14}
+                  style={{ color: "rgba(201,168,76,0.7)", marginBottom: "2px" }}
+                  strokeWidth={1.5}
+                />
+                <span
+                  style={{
+                    fontSize: "clamp(1.25rem, 4vw, 1.75rem)",
+                    fontWeight: 900,
+                    color: "#ffffff",
+                    letterSpacing: "-0.02em",
+                  }}
+                >
                   {value}
                 </span>
-                <span className="text-[10px] sm:text-xs text-slate-500 text-center uppercase tracking-widest">
+                <span
+                  style={{
+                    fontSize: "0.625rem",
+                    color: "#64748b",
+                    textAlign: "center",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.1em",
+                  }}
+                >
                   {label}
                 </span>
               </div>
             ))}
-          </motion.div>
+          </motion.div> */}
         </motion.div>
       </div>
 
       {/* Scroll cue */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-600"
+        style={{
+          width:'200px',
+          position: "relative",
+          bottom: "2rem",
+          left: "calc(50% - 100px)",
+          transform: "translateX(-50%)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "0.5rem",
+          color: "#475569",
+          padding: "3rem 0"
+        }}
         animate={{ y: [0, 7, 0] }}
         transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span className="text-[10px] uppercase tracking-[0.4em]">Scroll</span>
-        <ArrowDown className="w-3.5 h-3.5" />
+        <span
+          style={{
+            fontSize: "0.625rem",
+            textTransform: "uppercase",
+            letterSpacing: "0.4em",
+          }}
+        >
+          Scroll
+        </span>
+        <ArrowDown size={14} />
       </motion.div>
     </section>
   );

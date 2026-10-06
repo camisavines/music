@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -10,10 +10,15 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { bookingSchema, type BookingFormData } from "@/lib/booking-schema";
-import Button from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
-import Select from "@/components/ui/Select";
-import Textarea from "@/components/ui/Textarea";
+import {
+  Button,
+  TextInput,
+  TextArea,
+  Select,
+  SelectItem,
+  Form,
+  Stack,
+} from "@carbon/react";
 
 const eventTypeOptions = [
   { value: "Wedding",          label: "💍 Wedding" },
@@ -35,11 +40,34 @@ const guestCountOptions = [
   { value: "5001-plus",    label: "5,000+ guests" },
 ];
 
+// ─── Section header ───────────────────────────────────────────────────────────
+function SectionLegend({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
+  return (
+    <div style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "0.5rem",
+      fontSize: "0.6875rem",
+      fontWeight: 600,
+      color: "var(--accent-gold)",
+      textTransform: "uppercase",
+      letterSpacing: "0.25em",
+      marginBottom: "1.25rem",
+      paddingBottom: "0.5rem",
+      borderBottom: "1px solid rgba(201,168,76,0.1)",
+    }}>
+      <Icon size={14} />
+      {label}
+    </div>
+  );
+}
+
 export default function BookingSection() {
   const [submitted, setSubmitted] = useState(false);
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
@@ -74,25 +102,59 @@ export default function BookingSection() {
   };
 
   return (
-    <section id="booking" className="relative py-32 bg-dark-900">
-      <div className="absolute inset-0 cyber-grid opacity-15" aria-hidden />
+    <section
+      id="booking"
+      style={{
+        position: "relative",
+        padding: "8rem 0",
+        backgroundColor: "var(--bg-surface)",
+      }}
+    >
+      <div
+        aria-hidden
+        className="cyber-grid"
+        style={{ position: "absolute", inset: 0, opacity: 0.15 }}
+      />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        className="section-inner"
+        style={{ position: "relative", zIndex: 1, maxWidth: "56rem" }}
+      >
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          style={{ textAlign: "center", marginBottom: "3rem" }}
         >
-          <span className="text-xs font-mono uppercase tracking-[0.3em] text-gold-500 mb-3 block">
+          <span style={{
+            fontSize: "0.6875rem",
+            fontFamily: "monospace",
+            textTransform: "uppercase",
+            letterSpacing: "0.3em",
+            color: "var(--accent-gold)",
+            marginBottom: "0.75rem",
+            display: "block",
+          }}>
             Let&apos;s Work Together
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-wide text-white mb-4">
-            Book <span style={{ color: "#C9A84C" }}>DJ Axiom</span>
+          <h2 style={{
+            fontSize: "clamp(2rem, 6vw, 3rem)",
+            fontWeight: 700,
+            letterSpacing: "0.04em",
+            color: "#ffffff",
+            margin: 0,
+          }}>
+            Book <span style={{ color: "var(--accent-gold)" }}>DJ Neva Misa Beat</span>
           </h2>
-          <p className="max-w-xl mx-auto text-slate-400 font-light leading-relaxed">
+          <p style={{
+            maxWidth: "38rem",
+            margin: "1rem auto 0",
+            color: "#94a3b8",
+            fontWeight: 300,
+            lineHeight: 1.7,
+          }}>
             Ready to move forward? Fill out the form below and we&apos;ll confirm
             availability and lock in your date within 24 hours.
           </p>
@@ -102,182 +164,238 @@ export default function BookingSection() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass neon-border-gold rounded-2xl p-10 text-center flex flex-col items-center gap-6"
+            className="glass neon-border-gold"
+            style={{
+              borderRadius: "1rem",
+              padding: "2.5rem",
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "1.5rem",
+            }}
           >
-            <div className="w-16 h-16 rounded-full bg-gold-400/15 flex items-center justify-center">
-              <CheckCircle2 className="w-8 h-8 text-gold-400" />
+            <div style={{
+              width: "4rem",
+              height: "4rem",
+              borderRadius: "50%",
+              background: "rgba(201,168,76,0.15)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+              <CheckCircle2 size={32} style={{ color: "var(--accent-gold)" }} />
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-white mb-2">Inquiry Received!</h3>
-              <p className="text-slate-400">
+              <h3 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#ffffff", margin: "0 0 0.5rem" }}>
+                Inquiry Received!
+              </h3>
+              <p style={{ color: "#94a3b8", margin: 0 }}>
                 Thanks for reaching out. Check your email for a confirmation and we&apos;ll be in touch
                 within 24 hours with availability and pricing.
               </p>
             </div>
-            <Button variant="outline" onClick={() => setSubmitted(false)}>
+            <Button kind="tertiary" onClick={() => setSubmitted(false)}>
               Submit Another Inquiry
             </Button>
           </motion.div>
         ) : (
-          <motion.form
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            onSubmit={handleSubmit(onSubmit)}
-            className="glass neon-border rounded-2xl p-6 sm:p-10 space-y-10"
-            noValidate
+            className="glass neon-border"
+            style={{
+              borderRadius: "1rem",
+              padding: "clamp(1.5rem, 5vw, 2.5rem)",
+            }}
           >
-            {/* Contact Info */}
-            <fieldset>
-              <legend className="flex items-center gap-2 text-xs font-semibold text-gold-400 uppercase tracking-[0.25em] mb-5 pb-2 border-b border-gold-400/10 w-full">
-                <User className="w-3.5 h-3.5" />
-                Contact Information
-              </legend>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Input
-                  id="fullName"
-                  label="Full Name *"
-                  placeholder="Jane Smith"
-                  error={errors.fullName?.message}
-                  {...register("fullName")}
-                />
-                <Input
-                  id="email"
-                  type="email"
-                  label="Email Address *"
-                  placeholder="jane@example.com"
-                  error={errors.email?.message}
-                  {...register("email")}
-                />
-                <Input
-                  id="phone"
-                  type="tel"
-                  label="Phone Number *"
-                  placeholder="+1 (555) 000-0000"
-                  error={errors.phone?.message}
-                  {...register("phone")}
-                  className="sm:col-span-2"
-                />
-              </div>
-            </fieldset>
+            <Form onSubmit={handleSubmit(onSubmit)} noValidate>
+              <Stack gap={8}>
 
-            {/* Event Details */}
-            <fieldset>
-              <legend className="flex items-center gap-2 text-xs font-semibold text-gold-400 uppercase tracking-[0.25em] mb-5 pb-2 border-b border-gold-400/10 w-full">
-                <CalendarDays className="w-3.5 h-3.5" />
-                Event Details
-              </legend>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="sm:col-span-3">
-                  <Select
-                    id="eventType"
-                    label="Event Type *"
-                    options={eventTypeOptions}
-                    placeholder="Select event type"
-                    error={errors.eventType?.message}
-                    {...register("eventType")}
-                  />
+                {/* Contact Information */}
+                <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
+                  <SectionLegend icon={User} label="Contact Information" />
+                  <Stack gap={5}>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 240px), 1fr))", gap: "1rem" }}>
+                      <TextInput
+                        id="fullName"
+                        labelText="Full Name *"
+                        placeholder="Jane Smith"
+                        invalid={!!errors.fullName}
+                        invalidText={errors.fullName?.message}
+                        {...register("fullName")}
+                      />
+                      <TextInput
+                        id="email"
+                        type="email"
+                        labelText="Email Address *"
+                        placeholder="jane@example.com"
+                        invalid={!!errors.email}
+                        invalidText={errors.email?.message}
+                        {...register("email")}
+                      />
+                    </div>
+                    <TextInput
+                      id="phone"
+                      type="tel"
+                      labelText="Phone Number *"
+                      placeholder="+1 (555) 000-0000"
+                      invalid={!!errors.phone}
+                      invalidText={errors.phone?.message}
+                      {...register("phone")}
+                    />
+                  </Stack>
+                </fieldset>
+
+                {/* Event Details */}
+                <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
+                  <SectionLegend icon={CalendarDays} label="Event Details" />
+                  <Stack gap={5}>
+                    <Controller
+                      name="eventType"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          id="eventType"
+                          labelText="Event Type *"
+                          invalid={!!errors.eventType}
+                          invalidText={errors.eventType?.message}
+                          {...field}
+                        >
+                          <SelectItem value="" text="Select event type" disabled />
+                          {eventTypeOptions.map((o) => (
+                            <SelectItem key={o.value} value={o.value} text={o.label} />
+                          ))}
+                        </Select>
+                      )}
+                    />
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 200px), 1fr))", gap: "1rem" }}>
+                      <TextInput
+                        id="eventDate"
+                        type="date"
+                        labelText="Event Date *"
+                        invalid={!!errors.eventDate}
+                        invalidText={errors.eventDate?.message}
+                        {...register("eventDate")}
+                      />
+                      <TextInput
+                        id="eventTime"
+                        type="time"
+                        labelText="Start Time *"
+                        invalid={!!errors.eventTime}
+                        invalidText={errors.eventTime?.message}
+                        {...register("eventTime")}
+                      />
+                    </div>
+                  </Stack>
+                </fieldset>
+
+                {/* Venue */}
+                <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
+                  <SectionLegend icon={Building2} label="Venue" />
+                  <Stack gap={5}>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 240px), 1fr))", gap: "1rem" }}>
+                      <TextInput
+                        id="venueName"
+                        labelText="Venue Name *"
+                        placeholder="The Grand Ballroom"
+                        invalid={!!errors.venueName}
+                        invalidText={errors.venueName?.message}
+                        {...register("venueName")}
+                      />
+                      <Controller
+                        name="guestCount"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            id="guestCount"
+                            labelText="Estimated Guest Count *"
+                            invalid={!!errors.guestCount}
+                            invalidText={errors.guestCount?.message}
+                            {...field}
+                          >
+                            <SelectItem value="" text="Select range" disabled />
+                            {guestCountOptions.map((o) => (
+                              <SelectItem key={o.value} value={o.value} text={o.label} />
+                            ))}
+                          </Select>
+                        )}
+                      />
+                    </div>
+                    <TextInput
+                      id="venueAddress"
+                      labelText="Venue Address *"
+                      placeholder="123 Main St, Los Angeles, CA 90001"
+                      invalid={!!errors.venueAddress}
+                      invalidText={errors.venueAddress?.message}
+                      {...register("venueAddress")}
+                    />
+                  </Stack>
+                </fieldset>
+
+                {/* Music & Equipment */}
+                <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
+                  <SectionLegend icon={Music} label="Music & Equipment" />
+                  <Stack gap={5}>
+                    <TextArea
+                      id="musicalPreferences"
+                      labelText="Musical Preferences / Vibe *"
+                      placeholder="e.g. Deep house, hip-hop, top 40 pop — upbeat and high energy throughout the night"
+                      rows={3}
+                      invalid={!!errors.musicalPreferences}
+                      invalidText={errors.musicalPreferences?.message}
+                      {...register("musicalPreferences")}
+                    />
+                    <TextArea
+                      id="equipmentRequirements"
+                      labelText="Equipment Requirements"
+                      placeholder="e.g. Full PA system needed, venue has no speakers."
+                      rows={3}
+                      invalid={!!errors.equipmentRequirements}
+                      invalidText={errors.equipmentRequirements?.message}
+                      {...register("equipmentRequirements")}
+                    />
+                    <TextArea
+                      id="additionalNotes"
+                      labelText="Additional Notes"
+                      placeholder="Any special requests, set length, important timeline notes..."
+                      rows={3}
+                      invalid={!!errors.additionalNotes}
+                      invalidText={errors.additionalNotes?.message}
+                      {...register("additionalNotes")}
+                    />
+                  </Stack>
+                </fieldset>
+
+                {/* Submit */}
+                <div style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "1rem",
+                  paddingTop: "0.5rem",
+                }}>
+                  <p style={{ fontSize: "0.75rem", color: "#64748b" }}>
+                    * Required fields. Your information is kept strictly confidential.
+                  </p>
+                  <Button
+                    type="submit"
+                    kind="primary"
+                    size="lg"
+                    disabled={isSubmitting}
+                    style={{ minWidth: "10rem", justifyContent: "center" }}
+                  >
+                    <Send size={16} style={{ marginRight: "0.5rem" }} />
+                    {isSubmitting ? "Sending…" : "Send Inquiry"}
+                  </Button>
                 </div>
-                <div className="sm:col-span-2">
-                  <Input
-                    id="eventDate"
-                    type="date"
-                    label="Event Date *"
-                    error={errors.eventDate?.message}
-                    {...register("eventDate")}
-                  />
-                </div>
-                <Input
-                  id="eventTime"
-                  type="time"
-                  label="Start Time *"
-                  error={errors.eventTime?.message}
-                  {...register("eventTime")}
-                />
-              </div>
-            </fieldset>
 
-            {/* Venue */}
-            <fieldset>
-              <legend className="flex items-center gap-2 text-xs font-semibold text-gold-400 uppercase tracking-[0.25em] mb-5 pb-2 border-b border-gold-400/10 w-full">
-                <Building2 className="w-3.5 h-3.5" />
-                Venue
-              </legend>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Input
-                  id="venueName"
-                  label="Venue Name *"
-                  placeholder="The Grand Ballroom"
-                  error={errors.venueName?.message}
-                  {...register("venueName")}
-                />
-                <div className="sm:col-span-1">
-                  <Select
-                    id="guestCount"
-                    label="Estimated Guest Count *"
-                    options={guestCountOptions}
-                    placeholder="Select range"
-                    error={errors.guestCount?.message}
-                    {...register("guestCount")}
-                  />
-                </div>
-                <Input
-                  id="venueAddress"
-                  label="Venue Address *"
-                  placeholder="123 Main St, Los Angeles, CA 90001"
-                  error={errors.venueAddress?.message}
-                  {...register("venueAddress")}
-                  className="sm:col-span-2"
-                />
-              </div>
-            </fieldset>
-
-            {/* Music & Equipment */}
-            <fieldset>
-              <legend className="flex items-center gap-2 text-xs font-semibold text-gold-400 uppercase tracking-[0.25em] mb-5 pb-2 border-b border-gold-400/10 w-full">
-                <Music className="w-3.5 h-3.5" />
-                Music &amp; Equipment
-              </legend>
-              <div className="grid grid-cols-1 gap-4">
-                <Textarea
-                  id="musicalPreferences"
-                  label="Musical Preferences / Vibe *"
-                  placeholder="e.g. Deep house, hip-hop, top 40 pop — upbeat and high energy throughout the night"
-                  rows={3}
-                  error={errors.musicalPreferences?.message}
-                  {...register("musicalPreferences")}
-                />
-                <Textarea
-                  id="equipmentRequirements"
-                  label="Equipment Requirements"
-                  placeholder="e.g. Full PA system needed, venue has no speakers. Need intelligent lighting rig for 200 guests."
-                  rows={3}
-                  error={errors.equipmentRequirements?.message}
-                  {...register("equipmentRequirements")}
-                />
-                <Textarea
-                  id="additionalNotes"
-                  label="Additional Notes"
-                  placeholder="Any special requests, set length, important timeline notes..."
-                  rows={3}
-                  error={errors.additionalNotes?.message}
-                  {...register("additionalNotes")}
-                />
-              </div>
-            </fieldset>
-
-            {/* Submit */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-              <p className="text-xs text-slate-500">
-                * Required fields. Your information is kept strictly confidential.
-              </p>
-              <Button type="submit" size="lg" loading={isSubmitting} className="min-w-[160px]">
-                <Send className="w-4 h-4" />
-                {isSubmitting ? "Sending…" : "Send Inquiry"}
-              </Button>
-            </div>
-          </motion.form>
+              </Stack>
+            </Form>
+          </motion.div>
         )}
       </div>
     </section>

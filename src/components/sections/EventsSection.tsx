@@ -2,11 +2,18 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, MapPin, Users, Music, ExternalLink } from "lucide-react";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { Calendar, MapPin, Music, Tag, Info, Image as ImageIcon } from "lucide-react";
+import { Tag as CarbonTag } from "@carbon/react";
 
-type EventCategory = "All" | "Club" | "Festival" | "Wedding" | "Corporate" | "Private";
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+type EventCategory = "All" | "Club" | "Corporate" | "Private";
+
+interface EventPhoto {
+  src: string;
+  alt: string;
+  caption?: string;
+}
 
 interface GigEvent {
   id: string;
@@ -17,124 +24,120 @@ interface GigEvent {
   category: Exclude<EventCategory, "All">;
   genre: string;
   crowd: string;
-  image: string;
+  setDuration: string;
+  description: string;
+  highlights: string[];
+  photos: EventPhoto[];
+  recordingUrl?: string;
   highlight?: boolean;
 }
 
+// ─── Event data ───────────────────────────────────────────────────────────────
 const events: GigEvent[] = [
   {
-    id: "1",
-    title: "Afterdark Residency",
-    venue: "Exchange LA",
-    city: "Los Angeles, CA",
-    date: "Dec 14, 2024",
+    id: "chandelier-sessions",
+    title: "Chandelier Sessions",
+    venue: "TODO: Venue name",
+    city: "TODO: City, State",
+    date: "TODO: Month DD, YYYY",
     category: "Club",
-    genre: "House / Techno",
-    crowd: "1,200",
-    image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&q=80",
+    genre: "R&B / Hip-Hop",
+    crowd: "TODO: e.g. 400",
+    setDuration: "TODO: e.g. 3 hours",
+    description: "TODO: A short 2–3 sentence description of the Chandelier Sessions event — the vibe, the crowd, what made the night special.",
+    highlights: [
+      "TODO: Highlight 1 — e.g. Opening set energy that packed the floor within the first track",
+      "TODO: Highlight 2 — e.g. Crowd reaction to a surprise mashup",
+      "TODO: Highlight 3 — e.g. Standout moment or encore request",
+    ],
+    photos: [
+      { src: "/images/events/chandelier_sessions.WEBP", alt: "TODO: Alt text for photo 1", caption: "flyer" },
+    ],
+    recordingUrl: "TODO: https://soundcloud.com/djnevamisabeat/chandelier-sessions",
     highlight: true,
   },
   {
-    id: "2",
-    title: "Desert Frequencies",
-    venue: "Coachella Valley",
-    city: "Indio, CA",
-    date: "Apr 20, 2024",
-    category: "Festival",
-    genre: "Electronic / EDM",
-    crowd: "25,000",
-    image: "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=600&q=80",
+    id: "nye-behind-the-wall",
+    title: "NYE Behind the Wall",
+    venue: "TODO: Venue name",
+    city: "TODO: City, State",
+    date: "TODO: December 31, YYYY",
+    category: "Club",
+    genre: "R&B / Hip-Hop",
+    crowd: "TODO: e.g. 600",
+    setDuration: "TODO: e.g. 4 hours",
+    description: "TODO: A short 2–3 sentence description of the NYE Behind the Wall event.",
+    highlights: [
+      "TODO: Highlight 1 — e.g. Midnight countdown transition",
+      "TODO: Highlight 2 — e.g. Most-requested song of the night",
+      "TODO: Highlight 3 — e.g. Energy level or memorable crowd moment",
+    ],
+    photos: [
+      { src: "TODO: /images/events/nye-behind-the-wall-1.jpg", alt: "TODO: Alt text for photo 1" },
+      { src: "TODO: /images/events/nye-behind-the-wall-2.jpg", alt: "TODO: Alt text for photo 2" },
+    ],
+    recordingUrl: "TODO: https://soundcloud.com/djnevamisabeat/nye-behind-the-wall",
     highlight: true,
   },
   {
-    id: "3",
-    title: "Sarah & James Wedding",
-    venue: "The Beverly Hills Hotel",
-    city: "Beverly Hills, CA",
-    date: "Sep 7, 2024",
-    category: "Wedding",
-    genre: "Top 40 / R&B / Classics",
-    crowd: "280",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80",
-  },
-  {
-    id: "4",
-    title: "Tech Summit Gala",
-    venue: "Moscone Center",
-    city: "San Francisco, CA",
-    date: "Nov 2, 2024",
+    id: "excellence-project-fundraiser",
+    title: "Excellence Project Fundraiser",
+    venue: "TODO: Venue name",
+    city: "TODO: City, State",
+    date: "TODO: Month DD, YYYY",
     category: "Corporate",
-    genre: "Lounge / Electronic",
-    crowd: "800",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80",
+    genre: "R&B",
+    crowd: "TODO: e.g. 250",
+    setDuration: "TODO: e.g. 2 hours",
+    description: "TODO: A short 2–3 sentence description of the Excellence Project Fundraiser.",
+    highlights: [
+      "TODO: Highlight 1",
+      "TODO: Highlight 2",
+      "TODO: Highlight 3",
+    ],
+    photos: [
+      { src: "TODO: /images/events/excellence-project-fundraiser-1.jpg", alt: "TODO: Alt text for photo 1" },
+      { src: "TODO: /images/events/excellence-project-fundraiser-2.jpg", alt: "TODO: Alt text for photo 2" },
+    ],
   },
   {
-    id: "5",
-    title: "Neon Nights Vol. 3",
-    venue: "1 Hotel Rooftop",
-    city: "Miami, FL",
-    date: "Mar 15, 2024",
+    id: "texas-graduate",
+    title: "Texas Graduate",
+    venue: "TODO: Venue name",
+    city: "TODO: City, TX",
+    date: "TODO: Month DD, YYYY",
     category: "Private",
-    genre: "Hip-Hop / Afrobeats",
-    crowd: "350",
-    image: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&q=80",
-  },
-  {
-    id: "6",
-    title: "Bass Collective",
-    venue: "Sound Nightclub",
-    city: "Hollywood, CA",
-    date: "Feb 3, 2024",
-    category: "Club",
-    genre: "Bass / Drum & Bass",
-    crowd: "600",
-    image: "https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=600&q=80",
-  },
-  {
-    id: "7",
-    title: "Miami Music Week",
-    venue: "LIV Nightclub",
-    city: "Miami Beach, FL",
-    date: "Mar 27, 2024",
-    category: "Festival",
-    genre: "House / Progressive",
-    crowd: "3,000",
-    image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&q=80",
-    highlight: true,
-  },
-  {
-    id: "8",
-    title: "Rooftop Sessions",
-    venue: "Soho House",
-    city: "West Hollywood, CA",
-    date: "Jul 20, 2024",
-    category: "Private",
-    genre: "Deep House / Chill",
-    crowd: "150",
-    image: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=600&q=80",
+    genre: "Hip-Hop",
+    crowd: "TODO: e.g. 120",
+    setDuration: "TODO: e.g. 2.5 hours",
+    description: "TODO: A short 2–3 sentence description of the Texas Graduate private event.",
+    highlights: [
+      "TODO: Highlight 1",
+      "TODO: Highlight 2",
+      "TODO: Highlight 3",
+    ],
+    photos: [
+      { src: "TODO: /images/events/texas-graduate-1.jpg", alt: "TODO: Alt text for photo 1" },
+      { src: "TODO: /images/events/texas-graduate-2.jpg", alt: "TODO: Alt text for photo 2" },
+    ],
   },
 ];
 
-const categories: EventCategory[] = ["All", "Club", "Festival", "Wedding", "Corporate", "Private"];
+const categories: EventCategory[] = ["All", "Club", "Corporate", "Private"];
 
-const categoryColors: Record<Exclude<EventCategory, "All">, string> = {
-  Club:      "text-gold-400 bg-gold-400/10 border-gold-400/25",
-  Festival:  "text-violet-400 bg-violet-500/10 border-violet-500/25",
-  Wedding:   "text-rose-300 bg-rose-500/8 border-rose-400/25",
-  Corporate: "text-blue-300 bg-blue-500/8 border-blue-400/20",
-  Private:   "text-amber-300 bg-amber-500/8 border-amber-400/20",
-};
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
+const categoryTagType: Record<Exclude<EventCategory, "All">, "teal" | "blue" | "warm-gray"> = {
+  Club:      "teal",
+  Corporate: "blue",
+  Private:   "warm-gray",
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, scale: 0.92, y: 20 },
-  visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+  hidden:  { opacity: 0, scale: 0.92, y: 20 },
+  visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } },
   exit:    { opacity: 0, scale: 0.92, y: -10, transition: { duration: 0.2 } },
 };
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function EventsSection() {
   const [activeCategory, setActiveCategory] = useState<EventCategory>("All");
@@ -145,41 +148,90 @@ export default function EventsSection() {
       : events.filter((e) => e.category === activeCategory);
 
   return (
-    <section id="events" className="relative py-28 bg-dark-950">
-      {/* Section header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      id="events"
+      style={{
+        position: "relative",
+        padding: "7rem 0",
+        backgroundColor: "var(--bg-base)",
+      }}
+    >
+      <div className="section-inner">
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-center text-center mb-12"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            marginBottom: "3rem",
+          }}
         >
-          <span className="text-xs font-mono uppercase tracking-[0.3em] text-gold-500 mb-3">
+          <span style={{
+            fontSize: "0.6875rem",
+            fontFamily: "monospace",
+            textTransform: "uppercase",
+            letterSpacing: "0.3em",
+            color: "var(--accent-gold)",
+            marginBottom: "0.75rem",
+            display: "block",
+          }}>
             Portfolio
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-wide text-white mb-4">
-            Past Events &amp; <span style={{ color: "#C9A84C" }}>Gigs</span>
+          <h2 style={{
+            fontSize: "clamp(2rem, 6vw, 3rem)",
+            fontWeight: 700,
+            letterSpacing: "0.04em",
+            color: "#ffffff",
+            marginBottom: "1rem",
+            margin: 0,
+          }}>
+            Past Events &amp; <span style={{ color: "var(--accent-gold)" }}>Gigs</span>
           </h2>
-          <p className="max-w-xl text-slate-400 font-light leading-relaxed">
-            From intimate rooftop sessions and luxury ballroom receptions to
-            sold-out festival stages — a track record built on precision, energy,
-            and craft.
+          <p style={{
+            maxWidth: "38rem",
+            color: "#94a3b8",
+            fontWeight: 300,
+            lineHeight: 1.7,
+            marginTop: "1rem",
+          }}>
+            From intimate private celebrations to packed club nights and corporate
+            fundraisers — every set crafted with precision and energy.
           </p>
         </motion.div>
 
         {/* Filter pills */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <div style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "0.5rem",
+          marginBottom: "2.5rem",
+        }}>
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={cn(
-                "px-4 py-1.5 rounded-full text-sm font-medium border transition-all duration-300",
-                activeCategory === cat
-                  ? "bg-gold-400 border-gold-400 text-dark-950 shadow-[0_0_14px_rgba(201,168,76,0.45)]"
-                  : "border-white/8 text-slate-400 hover:border-gold-400/35 hover:text-gold-400 bg-white/4"
-              )}
+              style={{
+                padding: "0.375rem 1rem",
+                borderRadius: "9999px",
+                fontSize: "0.875rem",
+                fontWeight: 500,
+                border: activeCategory === cat
+                  ? "1px solid var(--accent-gold)"
+                  : "1px solid rgba(255,255,255,0.08)",
+                background: activeCategory === cat
+                  ? "var(--accent-gold)"
+                  : "rgba(255,255,255,0.04)",
+                color: activeCategory === cat ? "#080608" : "#94a3b8",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                boxShadow: activeCategory === cat ? "0 0 14px rgba(201,168,76,0.45)" : "none",
+              }}
             >
               {cat}
             </button>
@@ -187,88 +239,184 @@ export default function EventsSection() {
         </div>
 
         {/* Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
-        >
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 480px), 1fr))",
+          gap: "1.5rem",
+        }}>
           <AnimatePresence mode="popLayout">
             {filtered.map((event) => (
               <motion.article
                 key={event.id}
                 variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
                 layout
-                className={cn(
-                  "group relative rounded-xl overflow-hidden glass-card neon-border hover:neon-border-purple transition-all duration-300 cursor-pointer",
-                  event.highlight && "sm:col-span-2"
-                )}
+                className="glass-card neon-border"
+                style={{
+                  borderRadius: "0.75rem",
+                  overflow: "hidden",
+                  transition: "border-color 0.3s",
+                }}
               >
-                {/* Image */}
-                <div className="relative h-52 overflow-hidden">
-                  <Image
-                    src={event.image}
-                    alt={event.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/40 to-transparent" />
-
+                {/* Photo placeholder */}
+                <div style={{
+                  position: "relative",
+                  height: "13rem",
+                  overflow: "hidden",
+                  backgroundColor: "var(--bg-surface)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderBottom: "1px solid rgba(255,255,255,0.05)",
+                }}>
+                  <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    color: "#334155",
+                  }}>
+                    <ImageIcon size={32} strokeWidth={1} />
+                    <span style={{ fontSize: "0.6875rem", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                      TODO: Add event photo
+                    </span>
+                  </div>
                   {/* Category badge */}
-                  <span
-                    className={cn(
-                      "absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold border",
-                      categoryColors[event.category]
-                    )}
-                  >
-                    {event.category}
-                  </span>
-
+                  <div style={{ position: "absolute", top: "0.75rem", left: "0.75rem" }}>
+                    <CarbonTag type={categoryTagType[event.category]} size="sm">
+                      {event.category}
+                    </CarbonTag>
+                  </div>
                   {event.highlight && (
-                    <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-medium bg-gold-400/15 text-gold-300 border border-gold-400/25 tracking-wide">
+                    <span style={{
+                      position: "absolute",
+                      top: "0.75rem",
+                      right: "0.75rem",
+                      padding: "0.25rem 0.625rem",
+                      borderRadius: "9999px",
+                      fontSize: "0.6875rem",
+                      fontWeight: 500,
+                      background: "rgba(201,168,76,0.15)",
+                      color: "#d4af5a",
+                      border: "1px solid rgba(201,168,76,0.25)",
+                      letterSpacing: "0.05em",
+                    }}>
                       Featured
                     </span>
                   )}
                 </div>
 
                 {/* Content */}
-                <div className="p-4 space-y-3">
-                  <h3 className="font-semibold text-white/90 group-hover:text-gold-400 transition-colors tracking-wide">
+                <div style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  <h3 style={{
+                    fontSize: "1.0625rem",
+                    fontWeight: 600,
+                    color: "rgba(255,255,255,0.9)",
+                    letterSpacing: "0.04em",
+                    margin: 0,
+                  }}>
                     {event.title}
                   </h3>
 
-                  <div className="space-y-1.5 text-xs text-slate-400">
-                    <div className="flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-gold-500/70 shrink-0" />
-                      <span>{event.venue}, {event.city}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-gold-500/70 shrink-0" />
-                      <span>{event.date}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Music className="w-3.5 h-3.5 text-gold-500/70 shrink-0" />
-                      <span>{event.genre}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Users className="w-3.5 h-3.5 text-gold-500/70 shrink-0" />
-                      <span>{event.crowd} attendees</span>
-                    </div>
+                  {/* Core meta */}
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "0.5rem 1rem",
+                    fontSize: "0.75rem",
+                    color: "#94a3b8",
+                  }}>
+                    {[
+                      { Icon: MapPin,    text: event.venue.startsWith("TODO") ? "Venue — TBD" : `${event.venue}, ${event.city}`, isTodo: event.venue.startsWith("TODO") },
+                      { Icon: Calendar,  text: event.date.startsWith("TODO") ? "Date — TBD" : event.date, isTodo: event.date.startsWith("TODO") },
+                      { Icon: Music,     text: event.genre, isTodo: false },
+                      { Icon: Tag,       text: event.crowd.startsWith("TODO") ? "Crowd — TBD" : `${event.crowd} attendees`, isTodo: event.crowd.startsWith("TODO") },
+                    ].map(({ Icon, text, isTodo }, idx) => (
+                      <div key={idx} style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
+                        <Icon size={13} style={{ color: "rgba(201,168,76,0.7)", flexShrink: 0 }} />
+                        <span style={{ color: isTodo ? "#334155" : undefined, fontStyle: isTodo ? "italic" : undefined }}>
+                          {text}
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                </div>
 
-                {/* Hover overlay */}
-                <div className="absolute inset-0 flex items-center justify-center bg-dark-950/65 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-full glass neon-border-gold text-gold-400 text-xs font-medium tracking-wide uppercase">
-                    <ExternalLink className="w-3.5 h-3.5" />
-                    View Recap
+                  {/* Description */}
+                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "1rem" }}>
+                    <p style={{
+                      fontSize: "0.875rem",
+                      lineHeight: 1.65,
+                      color: event.description.startsWith("TODO") ? "#334155" : "#94a3b8",
+                      fontStyle: event.description.startsWith("TODO") ? "italic" : undefined,
+                      margin: 0,
+                    }}>
+                      {event.description.startsWith("TODO") ? "Description coming soon…" : event.description}
+                    </p>
+                  </div>
+
+                  {/* Highlights */}
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", marginBottom: "0.5rem" }}>
+                      <Info size={13} style={{ color: "rgba(201,168,76,0.6)", flexShrink: 0 }} />
+                      <span style={{ fontSize: "0.6875rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "#475569" }}>
+                        Highlights
+                      </span>
+                    </div>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.375rem" }}>
+                      {event.highlights.map((h, idx) => (
+                        <li key={idx} style={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: "0.5rem",
+                          fontSize: "0.75rem",
+                          color: h.startsWith("TODO") ? "#1e293b" : "#94a3b8",
+                          fontStyle: h.startsWith("TODO") ? "italic" : undefined,
+                        }}>
+                          <span style={{
+                            width: "4px",
+                            height: "4px",
+                            borderRadius: "50%",
+                            background: "rgba(201,168,76,0.4)",
+                            flexShrink: 0,
+                            marginTop: "0.375rem",
+                          }} />
+                          {h.startsWith("TODO") ? `Highlight ${idx + 1} — TBD` : h}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Photos placeholder */}
+                  <div>
+                    <span style={{ fontSize: "0.6875rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "#475569", display: "block", marginBottom: "0.5rem" }}>
+                      Photos
+                    </span>
+                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                      {event.photos.map((_photo, idx) => (
+                        <div key={idx} style={{
+                          flex: 1,
+                          height: "4rem",
+                          borderRadius: "0.5rem",
+                          backgroundColor: "var(--bg-surface)",
+                          border: "1px solid rgba(255,255,255,0.05)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}>
+                          <span style={{ fontSize: "0.625rem", color: "#1e293b", fontFamily: "monospace" }}>
+                            Photo {idx + 1}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </motion.article>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

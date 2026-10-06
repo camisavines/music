@@ -50,7 +50,7 @@ export function djNotificationEmail(data: BookingFormData): string {
               <p style="margin:0 0 6px;font-size:11px;letter-spacing:4px;text-transform:uppercase;
                         color:#06d6f5;font-weight:600;">New Booking Inquiry</p>
               <h1 style="margin:0;font-size:28px;font-weight:900;color:#ffffff;letter-spacing:-1px;">
-                DJ <span style="color:#06d6f5;">Axiom</span>
+                DJ <span style="color:#06d6f5;">Neva Misa Beat</span>
               </h1>
             </td>
           </tr>
@@ -96,7 +96,7 @@ export function djNotificationEmail(data: BookingFormData): string {
           <tr>
             <td style="padding:20px;text-align:center;">
               <p style="margin:0;font-size:11px;color:#334155;">
-                DJ Axiom Booking System · Confidential
+                DJ Neva Misa Beat Booking System · Confidential
               </p>
             </td>
           </tr>
@@ -131,7 +131,7 @@ export function clientConfirmationEmail(data: BookingFormData): string {
               <p style="margin:0 0 6px;font-size:11px;letter-spacing:4px;text-transform:uppercase;
                         color:#06d6f5;font-weight:600;">Booking Inquiry Received</p>
               <h1 style="margin:0;font-size:28px;font-weight:900;color:#ffffff;letter-spacing:-1px;">
-                DJ <span style="color:#06d6f5;">Axiom</span>
+                DJ <span style="color:#06d6f5;">Neva Misa Beat</span>
               </h1>
             </td>
           </tr>
@@ -177,7 +177,7 @@ export function clientConfirmationEmail(data: BookingFormData): string {
 
               <p style="margin:0;font-size:13px;color:#64748b;line-height:1.7;">
                 Questions? Reply to this email or reach out on Instagram at
-                <a href="https://instagram.com" style="color:#06d6f5;text-decoration:none;">@djaxiom</a>.
+                <a href="https://instagram.com" style="color:#06d6f5;text-decoration:none;">@djNeva Misa Beat</a>.
               </p>
             </td>
           </tr>
@@ -187,7 +187,7 @@ export function clientConfirmationEmail(data: BookingFormData): string {
             <td style="background:#0b1628;border:1px solid rgba(6,214,245,0.2);border-top:none;
                        border-radius:0 0 12px 12px;padding:20px 28px;text-align:center;">
               <p style="margin:0;font-size:11px;color:#334155;">
-                &copy; ${new Date().getFullYear()} DJ Axiom · Los Angeles, CA
+                &copy; ${new Date().getFullYear()} DJ Neva Misa Beat · Los Angeles, CA
               </p>
             </td>
           </tr>
