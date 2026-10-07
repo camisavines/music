@@ -19,10 +19,9 @@ interface GigEvent {
   category: Exclude<EventCategory, "All">;
   genre: string;
   crowd: string;
-  setDuration: string;
+
   description: string;
   photo?: string;
-  recordingUrl?: string;
   highlight?: boolean;
 }
 
@@ -37,10 +36,9 @@ const events: GigEvent[] = [
     category: "Club",
     genre: "R&B / Hip-Hop",
     crowd: "50+",
-    setDuration: "TODO: e.g. 3 hours",
-    description: "TODO: A short 2–3 sentence description of the Chandelier Sessions event — the vibe, the crowd, what made the night special.",
+    description:
+      "For those wanting to socialize, take a break from your 9 to 5, with a glass of wine and pure R&B vibes, this color-coordinated event is guaranteed to turn a long day into a smooth night.",
     photo: "/images/events/chandelier_sessions.WEBP",
-    recordingUrl: "TODO: https://soundcloud.com/djnevamisabeat/chandelier-sessions",
     highlight: true,
   },
   {
@@ -52,10 +50,9 @@ const events: GigEvent[] = [
     category: "Club",
     genre: "R&B / Hip-Hop",
     crowd: "50+",
-    setDuration: "TODO: e.g. 4 hours",
-    description: "TODO: A short 2–3 sentence description of the NYE Behind the Wall event.",
+    description:
+      "What better way to bring in the new year than go out with a bang with your lovers and friends.",
     photo: "/images/events/nye2025.PNG",
-    recordingUrl: "TODO: https://soundcloud.com/djnevamisabeat/nye-behind-the-wall",
     highlight: true,
   },
   {
@@ -67,23 +64,34 @@ const events: GigEvent[] = [
     category: "Corporate",
     genre: "R&B",
     crowd: "50+",
-    setDuration: "TODO: e.g. 2 hours",
-    description: "TODO: A short 2–3 sentence description of the Excellence Project Fundraiser.",
+    description:
+      "I partner with different corporations and foundations in Austin to make your event the best. The Excellence Project Fundraiser was nothing but.",
   },
 ];
 
 const categories: EventCategory[] = ["All", "Club", "Corporate", "Private"];
 
-const categoryTagType: Record<Exclude<EventCategory, "All">, "teal" | "blue" | "warm-gray"> = {
-  Club:      "teal",
+const categoryTagType: Record<
+  Exclude<EventCategory, "All">,
+  "teal" | "blue" | "warm-gray"
+> = {
+  Club: "teal",
   Corporate: "blue",
-  Private:   "warm-gray",
+  Private: "warm-gray",
 };
 
 const cardVariants = {
-  hidden:  { opacity: 0, scale: 0.92, y: 20 },
-  visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } },
-  exit:    { opacity: 0, scale: 0.92, y: -10, transition: { duration: 0.2 } },
+  hidden: { opacity: 0, scale: 0.92, y: 20 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+    },
+  },
+  exit: { opacity: 0, scale: 0.92, y: -10, transition: { duration: 0.2 } },
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -120,47 +128,56 @@ export default function EventsSection() {
             marginBottom: "3rem",
           }}
         >
-          <span style={{
-            fontSize: "0.6875rem",
-            fontFamily: "monospace",
-            textTransform: "uppercase",
-            letterSpacing: "0.3em",
-            color: "var(--accent-gold)",
-            marginBottom: "0.75rem",
-            display: "block",
-          }}>
+          <span
+            style={{
+              fontSize: "0.6875rem",
+              fontFamily: "monospace",
+              textTransform: "uppercase",
+              letterSpacing: "0.3em",
+              color: "var(--accent-gold)",
+              marginBottom: "0.75rem",
+              display: "block",
+            }}
+          >
             Portfolio
           </span>
-          <h2 style={{
-            fontSize: "clamp(2rem, 6vw, 3rem)",
-            fontWeight: 700,
-            letterSpacing: "0.04em",
-            color: "#ffffff",
-            marginBottom: "1rem",
-            margin: 0,
-          }}>
-            Past Events &amp; <span style={{ color: "var(--accent-gold)" }}>Gigs</span>
+          <h2
+            style={{
+              fontSize: "clamp(2rem, 6vw, 3rem)",
+              fontWeight: 700,
+              letterSpacing: "0.04em",
+              color: "#ffffff",
+              marginBottom: "1rem",
+              margin: 0,
+            }}
+          >
+            Past Events &amp;{" "}
+            <span style={{ color: "var(--accent-gold)" }}>Gigs</span>
           </h2>
-          <p style={{
-            maxWidth: "38rem",
-            color: "#94a3b8",
-            fontWeight: 300,
-            lineHeight: 1.7,
-            marginTop: "1rem",
-          }}>
-            From intimate private celebrations to packed club nights and corporate
-            fundraisers — every set crafted with precision and energy.
+          <p
+            style={{
+              maxWidth: "38rem",
+              color: "#94a3b8",
+              fontWeight: 300,
+              lineHeight: 1.7,
+              marginTop: "1rem",
+            }}
+          >
+            From intimate private celebrations to packed club nights and
+            corporate fundraisers — every set crafted with precision and energy.
           </p>
         </motion.div>
 
         {/* Filter pills */}
-        <div style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: "0.5rem",
-          marginBottom: "2.5rem",
-        }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: "0.5rem",
+            marginBottom: "2.5rem",
+          }}
+        >
           {categories.map((cat) => (
             <button
               key={cat}
@@ -170,16 +187,21 @@ export default function EventsSection() {
                 borderRadius: "9999px",
                 fontSize: "0.875rem",
                 fontWeight: 500,
-                border: activeCategory === cat
-                  ? "1px solid var(--accent-gold)"
-                  : "1px solid rgba(255,255,255,0.08)",
-                background: activeCategory === cat
-                  ? "var(--accent-gold)"
-                  : "rgba(255,255,255,0.04)",
+                border:
+                  activeCategory === cat
+                    ? "1px solid var(--accent-gold)"
+                    : "1px solid rgba(255,255,255,0.08)",
+                background:
+                  activeCategory === cat
+                    ? "var(--accent-gold)"
+                    : "rgba(255,255,255,0.04)",
                 color: activeCategory === cat ? "#080608" : "#94a3b8",
                 cursor: "pointer",
                 transition: "all 0.2s",
-                boxShadow: activeCategory === cat ? "0 0 14px rgba(201,168,76,0.45)" : "none",
+                boxShadow:
+                  activeCategory === cat
+                    ? "0 0 14px rgba(201,168,76,0.45)"
+                    : "none",
               }}
             >
               {cat}
@@ -188,11 +210,22 @@ export default function EventsSection() {
         </div>
 
         {/* Grid */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "1.5rem",
-        }}>
+        <style>{`
+          .events-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: 1fr;
+            justify-items: center;
+          }
+          @media (min-width: 672px) {
+            .events-grid { grid-template-columns: repeat(2, 1fr); }
+          }
+          @media (min-width: 1056px) {
+            .events-grid { grid-template-columns: repeat(3, 1fr); }
+          }
+          .events-grid > * { width: 100%; }
+        `}</style>
+        <div className="events-grid">
           <AnimatePresence mode="popLayout">
             {filtered.map((event) => (
               <motion.article
@@ -207,20 +240,23 @@ export default function EventsSection() {
                   borderRadius: "0.75rem",
                   overflow: "hidden",
                   transition: "border-color 0.3s",
+                  height: "100%",
                 }}
               >
                 {/* Event photo */}
-                <div style={{
-                  position: "relative",
-                  flex: 1,
-                  aspectRatio: "1 / 1",
-                  overflow: "hidden",
-                  backgroundColor: "var(--bg-surface)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderBottom: "1px solid rgba(255,255,255,0.05)",
-                }}>
+                <div
+                  style={{
+                    position: "relative",
+                    flex: 1,
+                    aspectRatio: "1 / 1",
+                    overflow: "hidden",
+                    backgroundColor: "var(--bg-surface)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderBottom: "1px solid rgba(255,255,255,0.05)",
+                  }}
+                >
                   {event.photo ? (
                     <Image
                       src={event.photo}
@@ -230,73 +266,137 @@ export default function EventsSection() {
                       style={{ objectFit: "cover" }}
                     />
                   ) : (
-                    <div style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      color: "#334155",
-                    }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        color: "#334155",
+                      }}
+                    >
                       <ImageIcon size={32} strokeWidth={1} />
-                      <span style={{ fontSize: "0.6875rem", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                      <span
+                        style={{
+                          fontSize: "0.6875rem",
+                          fontFamily: "monospace",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.1em",
+                        }}
+                      >
                         Photo coming soon
                       </span>
                     </div>
                   )}
                   {/* Category badge */}
-                  <div style={{ position: "absolute", top: "0.75rem", left: "0.75rem" }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "0.75rem",
+                      left: "0.75rem",
+                    }}
+                  >
                     <CarbonTag type={categoryTagType[event.category]} size="sm">
                       {event.category}
                     </CarbonTag>
                   </div>
                   {event.highlight && (
-                    <span style={{
-                      position: "absolute",
-                      top: "0.75rem",
-                      right: "0.75rem",
-                      padding: "0.25rem 0.625rem",
-                      borderRadius: "9999px",
-                      fontSize: "0.6875rem",
-                      fontWeight: 500,
-                      background: "rgba(201,168,76,0.15)",
-                      color: "#d4af5a",
-                      border: "1px solid rgba(201,168,76,0.25)",
-                      letterSpacing: "0.05em",
-                    }}>
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "0.75rem",
+                        right: "0.75rem",
+                        padding: "0.25rem 0.625rem",
+                        borderRadius: "9999px",
+                        fontSize: "0.6875rem",
+                        fontWeight: 500,
+                        background: "rgba(201,168,76,0.15)",
+                        color: "#d4af5a",
+                        border: "1px solid rgba(201,168,76,0.25)",
+                        letterSpacing: "0.05em",
+                      }}
+                    >
                       Featured
                     </span>
                   )}
                 </div>
 
                 {/* Content */}
-                <div style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
-                  <h3 style={{
-                    fontSize: "1.0625rem",
-                    fontWeight: 600,
-                    color: "rgba(255,255,255,0.9)",
-                    letterSpacing: "0.04em",
-                    margin: 0,
-                  }}>
+                <div
+                  style={{
+                    padding: "1.25rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontSize: "1.0625rem",
+                      fontWeight: 600,
+                      color: "rgba(255,255,255,0.9)",
+                      letterSpacing: "0.04em",
+                      margin: 0,
+                    }}
+                  >
                     {event.title}
                   </h3>
 
                   {/* Core meta */}
-                  <div style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "0.5rem 1rem",
-                    fontSize: "0.75rem",
-                    color: "#94a3b8",
-                  }}>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: "0.5rem 1rem",
+                      fontSize: "0.75rem",
+                      color: "#94a3b8",
+                    }}
+                  >
                     {[
-                      { Icon: MapPin,    text: event.venue.startsWith("TODO") ? "Venue — TBD" : `${event.venue}, ${event.city}`, isTodo: event.venue.startsWith("TODO") },
-                      { Icon: Calendar,  text: event.date.startsWith("TODO") ? "Date — TBD" : event.date, isTodo: event.date.startsWith("TODO") },
-                      { Icon: Music,     text: event.genre, isTodo: false },
-                      { Icon: Tag,       text: event.crowd.startsWith("TODO") ? "Crowd — TBD" : `${event.crowd} attendees`, isTodo: event.crowd.startsWith("TODO") },
+                      {
+                        Icon: MapPin,
+                        text: event.venue.startsWith("TODO")
+                          ? "Venue — TBD"
+                          : `${event.venue}, ${event.city}`,
+                        isTodo: event.venue.startsWith("TODO"),
+                      },
+                      {
+                        Icon: Calendar,
+                        text: event.date.startsWith("TODO")
+                          ? "Date — TBD"
+                          : event.date,
+                        isTodo: event.date.startsWith("TODO"),
+                      },
+                      { Icon: Music, text: event.genre, isTodo: false },
+                      {
+                        Icon: Tag,
+                        text: event.crowd.startsWith("TODO")
+                          ? "Crowd — TBD"
+                          : `${event.crowd} attendees`,
+                        isTodo: event.crowd.startsWith("TODO"),
+                      },
                     ].map(({ Icon, text, isTodo }, idx) => (
-                      <div key={idx} style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
-                        <Icon size={13} style={{ color: "rgba(201,168,76,0.7)", flexShrink: 0 }} />
-                        <span style={{ color: isTodo ? "#334155" : undefined, fontStyle: isTodo ? "italic" : undefined }}>
+                      <div
+                        key={idx}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.375rem",
+                        }}
+                      >
+                        <Icon
+                          size={13}
+                          style={{
+                            color: "rgba(201,168,76,0.7)",
+                            flexShrink: 0,
+                          }}
+                        />
+                        <span
+                          style={{
+                            color: isTodo ? "#334155" : undefined,
+                            fontStyle: isTodo ? "italic" : undefined,
+                          }}
+                        >
                           {text}
                         </span>
                       </div>
@@ -304,18 +404,30 @@ export default function EventsSection() {
                   </div>
 
                   {/* Description */}
-                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "1rem" }}>
-                    <p style={{
-                      fontSize: "0.875rem",
-                      lineHeight: 1.65,
-                      color: event.description.startsWith("TODO") ? "#334155" : "#94a3b8",
-                      fontStyle: event.description.startsWith("TODO") ? "italic" : undefined,
-                      margin: 0,
-                    }}>
-                      {event.description.startsWith("TODO") ? "Description coming soon…" : event.description}
+                  <div
+                    style={{
+                      borderTop: "1px solid rgba(255,255,255,0.05)",
+                      paddingTop: "1rem",
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontSize: "0.875rem",
+                        lineHeight: 1.65,
+                        color: event.description.startsWith("TODO")
+                          ? "#334155"
+                          : "#94a3b8",
+                        fontStyle: event.description.startsWith("TODO")
+                          ? "italic"
+                          : undefined,
+                        margin: 0,
+                      }}
+                    >
+                      {event.description.startsWith("TODO")
+                        ? "Description coming soon…"
+                        : event.description}
                     </p>
                   </div>
-
                 </div>
               </motion.article>
             ))}

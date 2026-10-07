@@ -1,19 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 
-type VibeCategory = "All" | "House" | "Hip-Hop" | "Lounge" | "Wedding" | "Afrobeats" | "Techno";
+type VibeCategory = "All" | "R&B" | "Hip-Hop" | "Lounge" | "Wedding" | "Afrobeats" | "Funk";
 
 interface Playlist {
   id: string;
   title: string;
   description: string;
   vibe: Exclude<VibeCategory, "All">;
-  trackCount: number;
-  duration: string;
-  embedPath: string;
+  image: string;
+  appleUrl: string;
   tags: string[];
 }
 
@@ -22,24 +22,64 @@ const playlists: Playlist[] = [
     id: "p1",
     title: "Neo-Soul",
     description:
-      "Deep melodic house to underground bangers — the perfect club set arc from 1AM to close.",
-    vibe: "House",
-    trackCount: 42,
-    duration: "3h 10m",
-    embedPath: "playlist/neo-soul/pl.u-r2yBARGuP99Zdvp",
-    tags: ["Deep House", "Melodic Techno", "Afro House"],
+      "Smooth neo-soul grooves blending classic R&B with modern production — the perfect soundtrack for any laid-back evening.",
+    vibe: "R&B",
+    image: "/images/playlists/neo-soul.jpeg",
+    appleUrl: "https://music.apple.com/us/playlist/neo-soul/pl.u-r2yBARGuP99Zdvp",
+    tags: ["Neo-Soul", "R&B", "Smooth"],
   },
+  {
+    id: "p2",
+    title: "Afrobeats",
+    description:
+      "High-energy Afrobeats anthems that keep the dance floor locked in from the first beat to the last.",
+    vibe: "Afrobeats",
+    image: "/images/playlists/AfroBeats.png",
+    appleUrl: "https://music.apple.com/us/playlist/afro/pl.u-zPyLLbvFZMMqErX",
+    tags: ["Afrobeats", "Dancehall", "Amapiano"],
+  },
+  {
+    id: "p3",
+    title: "Summer 2016",
+    description:
+      "A nostalgic throwback to the summer of 2016 — the hits that defined the season.",
+    vibe: "Hip-Hop",
+    image: "/images/playlists/Summer 2016.png",
+    appleUrl: "https://music.apple.com/us/playlist/summer-2016-vibes/pl.u-pMyll2aU4YYNG1g",
+    tags: ["Hip-Hop", "R&B", "Throwback"],
+  },
+  {
+    id: "p4",
+    title: "Wedding Bells",
+    description:
+      "Timeless wedding classics and modern love songs crafted to soundtrack every moment of your special day.",
+    vibe: "Wedding",
+    image: "/images/playlists/Wedding Bellls.png",
+    appleUrl: "https://music.apple.com/us/playlist/the-alexanders/pl.u-XkD0YV0cD44yovA",
+    tags: ["Wedding", "Romance", "First Dance"],
+  },
+  {
+    id: "p5",
+    title: "Roll Bounce",
+    description:
+      "Old-school funk and soul roller rink vibes — pure energy on wheels.",
+    vibe: "Funk",
+    image: "/images/playlists/rollbounce.png",
+    appleUrl: "https://music.apple.com/us/playlist/70s-skate/pl.u-MDAW2jDTW44k2pm",
+    tags: ["Funk", "Soul", "Old School"],
+  },
+  
 ];
 
-const vibes: VibeCategory[] = ["All", "House", "Hip-Hop", "Lounge", "Wedding", "Afrobeats", "Techno"];
+const vibes: VibeCategory[] = ["All", "R&B", "Hip-Hop", "Lounge", "Wedding", "Afrobeats", "Funk"];
 
 const vibeColors: Record<Exclude<VibeCategory, "All">, string> = {
-  House:      "var(--accent-gold)",
+  "R&B":      "var(--accent-gold)",
   "Hip-Hop":  "var(--accent-violet)",
   Lounge:     "#fbbf24",
   Wedding:    "#fda4af",
   Afrobeats:  "#5eead4",
-  Techno:     "#94a3b8",
+  Funk:       "#94a3b8",
 };
 
 export default function PlaylistsSection() {
@@ -134,11 +174,25 @@ export default function PlaylistsSection() {
         </div>
 
         {/* Playlist grid */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))",
-          gap: "1.25rem",
-        }}>
+        <style>{`
+          .playlists-grid {
+            display: grid;
+            gap: 1.25rem;
+            grid-template-columns: 1fr;
+            justify-items: center;
+          }
+          @media (min-width: 672px) {
+            .playlists-grid { grid-template-columns: repeat(2, 1fr); }
+          }
+          @media (min-width: 1056px) {
+            .playlists-grid { grid-template-columns: repeat(3, 1fr); }
+          }
+          @media (min-width: 1312px) {
+            .playlists-grid { grid-template-columns: repeat(4, 1fr); }
+          }
+          .playlists-grid > * { width: 100%; }
+        `}</style>
+        <div className="playlists-grid">
           {filtered.map((playlist, i) => (
             <motion.div
               key={playlist.id}
@@ -152,17 +206,19 @@ export default function PlaylistsSection() {
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
+                height: "100%",
               }}
             >
-              {/* Apple Music embed */}
-              <iframe
-                allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
-                height="450"
-                style={{ width: "100%", overflow: "hidden", background: "transparent", display: "block" }}
-                sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-                src={`https://embed.music.apple.com/us/${playlist.embedPath}`}
-                title={`Apple Music: ${playlist.title}`}
-              />
+              {/* Cover image */}
+              <div style={{ position: "relative", aspectRatio: "1 / 1", overflow: "hidden" }}>
+                <Image
+                  src={playlist.image}
+                  alt={playlist.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
 
               {/* Info */}
               <div style={{
@@ -171,6 +227,7 @@ export default function PlaylistsSection() {
                 flexDirection: "column",
                 gap: "0.75rem",
                 borderTop: "1px solid rgba(255,255,255,0.05)",
+                flex: 1,
               }}>
                 <div>
                   <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.5rem" }}>
@@ -182,19 +239,10 @@ export default function PlaylistsSection() {
                     }}>
                       {playlist.title}
                     </h3>
-                    <span style={{
-                      fontSize: "0.6875rem",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.1em",
-                      flexShrink: 0,
-                      color: vibeColors[playlist.vibe],
-                    }}>
-                      {playlist.vibe}
-                    </span>
+                    
                   </div>
-                  <p style={{ fontSize: "0.75rem", color: "#64748b", marginTop: "0.125rem" }}>
-                    {playlist.trackCount} tracks · {playlist.duration}
+                  <p style={{ fontSize: "0.75rem", color: vibeColors[playlist.vibe], marginTop: "0.125rem" }}>
+                    {playlist.vibe}
                   </p>
                 </div>
                 <p style={{ fontSize: "0.875rem", color: "#94a3b8", lineHeight: 1.65, margin: 0 }}>
@@ -215,7 +263,7 @@ export default function PlaylistsSection() {
                   ))}
                 </div>
                 <a
-                  href={`https://music.apple.com/us/${playlist.embedPath}`}
+                  href={playlist.appleUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -228,6 +276,8 @@ export default function PlaylistsSection() {
                     color: "rgba(201,168,76,0.7)",
                     textDecoration: "none",
                     transition: "color 0.2s",
+                    marginTop: "auto",
+                    paddingTop: "1rem"
                   }}
                 >
                   <ExternalLink size={14} />
