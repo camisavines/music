@@ -45,20 +45,27 @@ function Waveform({ bars = 32 }: { bars?: number }) {
 
 // ─── Stats row ────────────────────────────────────────────────────────────────
 const stats = [
-  { icon: Calendar, value: "5+",  label: "Events Played" },
-  { icon: MapPin,   value: "30+", label: "Cities Worldwide" },
-  { icon: Users,    value: "2M+", label: "Crowd Reached" },
+  { icon: Calendar, value: "5+", label: "Events Played" },
+  { icon: MapPin, value: "30+", label: "Cities Worldwide" },
+  { icon: Users, value: "2M+", label: "Crowd Reached" },
 ];
 
 // ─── Motion variants ──────────────────────────────────────────────────────────
 const containerVariants = {
-  hidden:  { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.13, delayChildren: 0.4 } },
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.13, delayChildren: 0.4 },
+  },
 };
 
 const itemVariants = {
-  hidden:  { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -88,7 +95,7 @@ export default function HeroSection() {
           backgroundImage: "url('/images/gallery/IMG_1231.JPG')",
           backgroundSize: "cover",
           backgroundPosition: "top center",
-          backgroundRepeat: "no-repeat"
+          backgroundRepeat: "no-repeat",
         }}
       >
         <div
@@ -97,7 +104,7 @@ export default function HeroSection() {
             inset: 0,
             background:
               "linear-gradient(to bottom, rgba(8,6,8,0.50) 0%, rgba(8,6,8,0.55) 100%",
-              // "linear-gradient(to bottom, rgba(8,6,8,0.85) 0%, rgba(8,6,8,0.55) 10%, rgba(8,6,8,0.15) 90%, rgba(8,6,8,0.99) 100%)",
+            // "linear-gradient(to bottom, rgba(8,6,8,0.85) 0%, rgba(8,6,8,0.55) 10%, rgba(8,6,8,0.15) 90%, rgba(8,6,8,0.99) 100%)",
           }}
         />
         <div
@@ -127,7 +134,8 @@ export default function HeroSection() {
           transform: "translateX(-50%)",
           width: "min(900px, 100vw)",
           height: "340px",
-          background: "radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%)",
+          background:
+            "radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%)",
           filter: "blur(40px)",
           pointerEvents: "none",
         }}
@@ -166,7 +174,12 @@ export default function HeroSection() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2rem" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "2rem",
+          }}
         >
           {/* Status badge */}
           <motion.div variants={itemVariants}>
@@ -208,8 +221,10 @@ export default function HeroSection() {
                 height: "clamp(120px, 20vw, 170px)",
                 borderRadius: "50%",
                 padding: "4px",
-                background: "linear-gradient(135deg, rgba(201,168,76,0.8), rgba(124,58,237,0.5), rgba(201,168,76,0.2))",
-                boxShadow: "0 0 30px rgba(201,168,76,0.25), 0 0 60px rgba(124,58,237,0.15)",
+                background:
+                  "linear-gradient(135deg, rgba(201,168,76,0.8), rgba(124,58,237,0.5), rgba(201,168,76,0.2))",
+                boxShadow:
+                  "0 0 30px rgba(201,168,76,0.25), 0 0 60px rgba(124,58,237,0.15)",
               }}
             >
               <div
@@ -251,7 +266,6 @@ export default function HeroSection() {
                 style={{
                   display: "block",
                   color: "rgba(255,255,255,0.95)",
-                  letterSpacing: "0.55em",
                   fontWeight: 300,
                   fontSize: "clamp(0.875rem, 3vw, 1.5rem)",
                   marginBottom: "0.5rem",
@@ -260,13 +274,12 @@ export default function HeroSection() {
               >
                 DJ
               </span>
-              <span style={{ color: "#ffffff" }}>
-                  misa
-              </span>
+
+              <span style={{ color: "#ffffff" }}>NevaMisaBeat</span>
             </h1>
             <p
               style={{
-                // fontFamily: "monospace",
+                fontFamily: "var(--font-sans-family)",
                 fontSize: "clamp(0.625rem, 1.5vw, 0.75rem)",
                 textTransform: "uppercase",
                 letterSpacing: "0.45em",
@@ -274,7 +287,8 @@ export default function HeroSection() {
                 marginTop: "0.75rem",
               }}
             >
-              Clubs &nbsp;·&nbsp; Festivals &nbsp;·&nbsp; Weddings &nbsp;·&nbsp; Corporate
+              Clubs &nbsp;·&nbsp; Festivals &nbsp;·&nbsp; Weddings &nbsp;·&nbsp;
+              Corporate
             </p>
           </motion.div>
 
@@ -322,7 +336,9 @@ export default function HeroSection() {
               kind="tertiary"
               size="lg"
               onClick={() =>
-                document.getElementById("events")?.scrollIntoView({ behavior: "smooth" })
+                document
+                  .getElementById("events")
+                  ?.scrollIntoView({ behavior: "smooth" })
               }
             >
               Explore Portfolio
@@ -386,7 +402,7 @@ export default function HeroSection() {
       {/* Scroll cue */}
       <motion.div
         style={{
-          width:'200px',
+          width: "200px",
           position: "relative",
           bottom: "2rem",
           left: "calc(50% - 100px)",
@@ -396,7 +412,7 @@ export default function HeroSection() {
           alignItems: "center",
           gap: "0.5rem",
           color: "#475569",
-          padding: "3rem 0"
+          padding: "3rem 0",
         }}
         animate={{ y: [0, 7, 0] }}
         transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}

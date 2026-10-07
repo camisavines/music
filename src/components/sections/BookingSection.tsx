@@ -327,7 +327,7 @@ export default function BookingSection() {
                     <TextInput
                       id="venueAddress"
                       labelText="Venue Address *"
-                      placeholder="123 Main St, Los Angeles, CA 90001"
+                      placeholder="123 Main St, Austin, TX 90001"
                       invalid={!!errors.venueAddress}
                       invalidText={errors.venueAddress?.message}
                       {...register("venueAddress")}

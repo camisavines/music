@@ -44,8 +44,8 @@ export default function Footer() {
               lineHeight: 1.7,
               maxWidth: "20rem",
             }}>
-              Professional DJ &amp; music producer based in Los Angeles. Available
-              worldwide for clubs, festivals, weddings, and private events.
+              Professional DJ &amp; music producer based in Austin, TX . Available
+              for clubs, festivals, weddings, and private events.
             </p>
           </div>
 

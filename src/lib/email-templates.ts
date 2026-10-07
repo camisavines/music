@@ -2,18 +2,18 @@ import type { BookingFormData } from "@/lib/booking-schema";
 
 export function djNotificationEmail(data: BookingFormData): string {
   const rows = [
-    ["Name",               data.fullName],
-    ["Email",              data.email],
-    ["Phone",              data.phone],
-    ["Event Type",         data.eventType],
-    ["Event Date",         data.eventDate],
-    ["Start Time",         data.eventTime],
-    ["Venue",              data.venueName],
-    ["Address",            data.venueAddress],
-    ["Guest Count",        data.guestCount],
-    ["Musical Vibe",       data.musicalPreferences],
-    ["Equipment Notes",    data.equipmentRequirements || "—"],
-    ["Additional Notes",   data.additionalNotes       || "—"],
+    ["Name", data.fullName],
+    ["Email", data.email],
+    ["Phone", data.phone],
+    ["Event Type", data.eventType],
+    ["Event Date", data.eventDate],
+    ["Start Time", data.eventTime],
+    ["Venue", data.venueName],
+    ["Address", data.venueAddress],
+    ["Guest Count", data.guestCount],
+    ["Musical Vibe", data.musicalPreferences],
+    ["Equipment Notes", data.equipmentRequirements || "—"],
+    ["Additional Notes", data.additionalNotes || "—"],
   ];
 
   const tableRows = rows
@@ -25,7 +25,7 @@ export function djNotificationEmail(data: BookingFormData): string {
                      width:160px;vertical-align:top;">${label}</td>
           <td style="padding:10px 14px;background:#060d17;border-bottom:1px solid #1e2d45;
                      font-size:13px;color:#e2e8f0;vertical-align:top;">${value}</td>
-        </tr>`
+        </tr>`,
     )
     .join("");
 
@@ -187,7 +187,7 @@ export function clientConfirmationEmail(data: BookingFormData): string {
             <td style="background:#0b1628;border:1px solid rgba(6,214,245,0.2);border-top:none;
                        border-radius:0 0 12px 12px;padding:20px 28px;text-align:center;">
               <p style="margin:0;font-size:11px;color:#334155;">
-                &copy; ${new Date().getFullYear()} DJ Neva Misa Beat · Los Angeles, CA
+                &copy; ${new Date().getFullYear()} DJ Neva Misa Beat · Austin, TX
               </p>
             </td>
           </tr>

@@ -1,19 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, MapPin, Music, Tag, Info, Image as ImageIcon } from "lucide-react";
+import { Calendar, MapPin, Music, Tag, Image as ImageIcon } from "lucide-react";
 import { Tag as CarbonTag } from "@carbon/react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type EventCategory = "All" | "Club" | "Corporate" | "Private";
-
-interface EventPhoto {
-  src: string;
-  alt: string;
-  caption?: string;
-}
 
 interface GigEvent {
   id: string;
@@ -26,8 +21,7 @@ interface GigEvent {
   crowd: string;
   setDuration: string;
   description: string;
-  highlights: string[];
-  photos: EventPhoto[];
+  photo?: string;
   recordingUrl?: string;
   highlight?: boolean;
 }
@@ -37,89 +31,44 @@ const events: GigEvent[] = [
   {
     id: "chandelier-sessions",
     title: "Chandelier Sessions",
-    venue: "TODO: Venue name",
-    city: "TODO: City, State",
-    date: "TODO: Month DD, YYYY",
+    venue: "Benny's Room",
+    city: "Austin",
+    date: "Dec 3, 2025",
     category: "Club",
     genre: "R&B / Hip-Hop",
-    crowd: "TODO: e.g. 400",
+    crowd: "50+",
     setDuration: "TODO: e.g. 3 hours",
     description: "TODO: A short 2–3 sentence description of the Chandelier Sessions event — the vibe, the crowd, what made the night special.",
-    highlights: [
-      "TODO: Highlight 1 — e.g. Opening set energy that packed the floor within the first track",
-      "TODO: Highlight 2 — e.g. Crowd reaction to a surprise mashup",
-      "TODO: Highlight 3 — e.g. Standout moment or encore request",
-    ],
-    photos: [
-      { src: "/images/events/chandelier_sessions.WEBP", alt: "TODO: Alt text for photo 1", caption: "flyer" },
-    ],
+    photo: "/images/events/chandelier_sessions.WEBP",
     recordingUrl: "TODO: https://soundcloud.com/djnevamisabeat/chandelier-sessions",
     highlight: true,
   },
   {
     id: "nye-behind-the-wall",
-    title: "NYE Behind the Wall",
-    venue: "TODO: Venue name",
-    city: "TODO: City, State",
-    date: "TODO: December 31, YYYY",
+    title: "Midnight in the Back Room",
+    venue: "Benny's Room",
+    city: "Austin",
+    date: "Dec 31, 2025",
     category: "Club",
     genre: "R&B / Hip-Hop",
-    crowd: "TODO: e.g. 600",
+    crowd: "50+",
     setDuration: "TODO: e.g. 4 hours",
     description: "TODO: A short 2–3 sentence description of the NYE Behind the Wall event.",
-    highlights: [
-      "TODO: Highlight 1 — e.g. Midnight countdown transition",
-      "TODO: Highlight 2 — e.g. Most-requested song of the night",
-      "TODO: Highlight 3 — e.g. Energy level or memorable crowd moment",
-    ],
-    photos: [
-      { src: "TODO: /images/events/nye-behind-the-wall-1.jpg", alt: "TODO: Alt text for photo 1" },
-      { src: "TODO: /images/events/nye-behind-the-wall-2.jpg", alt: "TODO: Alt text for photo 2" },
-    ],
+    photo: "/images/events/nye2025.PNG",
     recordingUrl: "TODO: https://soundcloud.com/djnevamisabeat/nye-behind-the-wall",
     highlight: true,
   },
   {
     id: "excellence-project-fundraiser",
     title: "Excellence Project Fundraiser",
-    venue: "TODO: Venue name",
-    city: "TODO: City, State",
-    date: "TODO: Month DD, YYYY",
+    venue: "Benny's Room",
+    city: "Austin",
+    date: "Apr 27, 2026",
     category: "Corporate",
     genre: "R&B",
-    crowd: "TODO: e.g. 250",
+    crowd: "50+",
     setDuration: "TODO: e.g. 2 hours",
     description: "TODO: A short 2–3 sentence description of the Excellence Project Fundraiser.",
-    highlights: [
-      "TODO: Highlight 1",
-      "TODO: Highlight 2",
-      "TODO: Highlight 3",
-    ],
-    photos: [
-      { src: "TODO: /images/events/excellence-project-fundraiser-1.jpg", alt: "TODO: Alt text for photo 1" },
-      { src: "TODO: /images/events/excellence-project-fundraiser-2.jpg", alt: "TODO: Alt text for photo 2" },
-    ],
-  },
-  {
-    id: "texas-graduate",
-    title: "Texas Graduate",
-    venue: "TODO: Venue name",
-    city: "TODO: City, TX",
-    date: "TODO: Month DD, YYYY",
-    category: "Private",
-    genre: "Hip-Hop",
-    crowd: "TODO: e.g. 120",
-    setDuration: "TODO: e.g. 2.5 hours",
-    description: "TODO: A short 2–3 sentence description of the Texas Graduate private event.",
-    highlights: [
-      "TODO: Highlight 1",
-      "TODO: Highlight 2",
-      "TODO: Highlight 3",
-    ],
-    photos: [
-      { src: "TODO: /images/events/texas-graduate-1.jpg", alt: "TODO: Alt text for photo 1" },
-      { src: "TODO: /images/events/texas-graduate-2.jpg", alt: "TODO: Alt text for photo 2" },
-    ],
   },
 ];
 
@@ -241,7 +190,7 @@ export default function EventsSection() {
         {/* Grid */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 480px), 1fr))",
+          gridTemplateColumns: "repeat(3, 1fr)",
           gap: "1.5rem",
         }}>
           <AnimatePresence mode="popLayout">
@@ -260,10 +209,11 @@ export default function EventsSection() {
                   transition: "border-color 0.3s",
                 }}
               >
-                {/* Photo placeholder */}
+                {/* Event photo */}
                 <div style={{
                   position: "relative",
-                  height: "13rem",
+                  flex: 1,
+                  aspectRatio: "1 / 1",
                   overflow: "hidden",
                   backgroundColor: "var(--bg-surface)",
                   display: "flex",
@@ -271,18 +221,28 @@ export default function EventsSection() {
                   justifyContent: "center",
                   borderBottom: "1px solid rgba(255,255,255,0.05)",
                 }}>
-                  <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    color: "#334155",
-                  }}>
-                    <ImageIcon size={32} strokeWidth={1} />
-                    <span style={{ fontSize: "0.6875rem", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.1em" }}>
-                      TODO: Add event photo
-                    </span>
-                  </div>
+                  {event.photo ? (
+                    <Image
+                      src={event.photo}
+                      alt={event.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      style={{ objectFit: "cover" }}
+                    />
+                  ) : (
+                    <div style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      color: "#334155",
+                    }}>
+                      <ImageIcon size={32} strokeWidth={1} />
+                      <span style={{ fontSize: "0.6875rem", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                        Photo coming soon
+                      </span>
+                    </div>
+                  )}
                   {/* Category badge */}
                   <div style={{ position: "absolute", top: "0.75rem", left: "0.75rem" }}>
                     <CarbonTag type={categoryTagType[event.category]} size="sm">
@@ -356,62 +316,6 @@ export default function EventsSection() {
                     </p>
                   </div>
 
-                  {/* Highlights */}
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", marginBottom: "0.5rem" }}>
-                      <Info size={13} style={{ color: "rgba(201,168,76,0.6)", flexShrink: 0 }} />
-                      <span style={{ fontSize: "0.6875rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "#475569" }}>
-                        Highlights
-                      </span>
-                    </div>
-                    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.375rem" }}>
-                      {event.highlights.map((h, idx) => (
-                        <li key={idx} style={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          gap: "0.5rem",
-                          fontSize: "0.75rem",
-                          color: h.startsWith("TODO") ? "#1e293b" : "#94a3b8",
-                          fontStyle: h.startsWith("TODO") ? "italic" : undefined,
-                        }}>
-                          <span style={{
-                            width: "4px",
-                            height: "4px",
-                            borderRadius: "50%",
-                            background: "rgba(201,168,76,0.4)",
-                            flexShrink: 0,
-                            marginTop: "0.375rem",
-                          }} />
-                          {h.startsWith("TODO") ? `Highlight ${idx + 1} — TBD` : h}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Photos placeholder */}
-                  <div>
-                    <span style={{ fontSize: "0.6875rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "#475569", display: "block", marginBottom: "0.5rem" }}>
-                      Photos
-                    </span>
-                    <div style={{ display: "flex", gap: "0.5rem" }}>
-                      {event.photos.map((_photo, idx) => (
-                        <div key={idx} style={{
-                          flex: 1,
-                          height: "4rem",
-                          borderRadius: "0.5rem",
-                          backgroundColor: "var(--bg-surface)",
-                          border: "1px solid rgba(255,255,255,0.05)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}>
-                          <span style={{ fontSize: "0.625rem", color: "#1e293b", fontFamily: "monospace" }}>
-                            Photo {idx + 1}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
                 </div>
               </motion.article>
             ))}
