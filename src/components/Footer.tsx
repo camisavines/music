@@ -1,12 +1,11 @@
 "use client";
 
-import { Music2, Instagram, Twitter, Youtube, Mail } from "lucide-react";
+import { Music, LogoInstagram, Email } from "@carbon/icons-react";
 
 const socials = [
-  { Icon: Instagram, href: "#", label: "Instagram" },
-  { Icon: Twitter,   href: "#", label: "Twitter" },
-  { Icon: Youtube,   href: "#", label: "YouTube" },
-  { Icon: Mail,      href: "#booking", label: "Email" },
+  { Icon: LogoInstagram, href: "https://instagram.com/djnevamisabeat", label: "Instagram" },
+  // { Icon: LogoYoutube,   href: "#", label: "YouTube" },
+  { Icon: Email,         href: "#booking", label: "Email" },
 ];
 
 const quickLinks = [
@@ -33,7 +32,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }}>
-              <Music2 size={22} style={{ color: "var(--accent-gold)", flexShrink: 0 }} strokeWidth={1.5} />
+              <Music size={22} style={{ color: "var(--accent-gold)", flexShrink: 0 }} />
               <span style={{ color: "#ffffff", fontWeight: 700, letterSpacing: "0.05em" }}>
                 DJ Neva<span style={{ color: "var(--accent-violet)" }}>Misa</span>Beat
               </span>
@@ -44,7 +43,7 @@ export default function Footer() {
               lineHeight: 1.7,
               maxWidth: "20rem",
             }}>
-              Professional DJ &amp; music producer based in Austin, TX . Available
+              Professional DJ &amp; music producer based in Austin, TX. Available
               for clubs, festivals, weddings, and private events.
             </p>
           </div>

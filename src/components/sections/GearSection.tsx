@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Cpu, Speaker, Sliders, Star, ExternalLink } from "lucide-react";
+import { Chip, VolumeUpFilled, Settings, Star, Launch } from "@carbon/icons-react";
 import { Tag as CarbonTag } from "@carbon/react";
 
 type GearCategory = "Controllers" | "Audio" | "Software";
@@ -83,9 +83,9 @@ const categories: GearCategory[] = ["Controllers", "Audio", "Software"];
 
 function CategoryIcon({ category }: { category: GearCategory }) {
   switch (category) {
-    case "Controllers": return <Sliders size={14} />;
-    case "Audio":       return <Speaker size={14} />;
-    case "Software":    return <Cpu size={14} />;
+    case "Controllers": return <Settings size={14} />;
+    case "Audio":       return <VolumeUpFilled size={14} />;
+    case "Software":    return <Chip size={14} />;
   }
 }
 
@@ -296,7 +296,7 @@ export default function GearSection() {
                     transition: "color 0.2s",
                   }}
                 >
-                  <ExternalLink size={12} />
+                  <Launch size={12} />
                   View Product
                 </a>
               )}

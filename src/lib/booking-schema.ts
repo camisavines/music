@@ -46,11 +46,7 @@ export const bookingSchema = z.object({
 
   guestCount: z
     .string()
-    .min(1, "Estimated guest count is required")
-    .refine(
-      (val) => !isNaN(Number(val)) && Number(val) >= 1 && Number(val) <= 100000,
-      "Please enter a valid guest count (1–100,000)"
-    ),
+    .min(1, "Estimated guest count is required"),
 
   musicalPreferences: z
     .string()

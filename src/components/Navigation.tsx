@@ -13,7 +13,7 @@ import {
   SideNavLink,
   SkipToContent,
 } from "@carbon/react";
-import { Music2, Menu, X } from "lucide-react";
+import { Music, Menu, Close } from "@carbon/icons-react";
 
 const navLinks = [
   { href: "#events",    label: "Events" },
@@ -47,7 +47,7 @@ export default function Navigation() {
 
         <HeaderName href="/" prefix="">
           <span className="nav-brand">
-            <Music2 size={22} strokeWidth={1.5} className="nav-brand__icon" />
+            <Music size={22} className="nav-brand__icon" />
             <span className="nav-brand__text">
               DJ Neva<span className="nav-brand__accent">Misa</span>Beat
             </span>
@@ -76,7 +76,7 @@ export default function Navigation() {
             onClick={() => setSideNavOpen(!sideNavOpen)}
             className="nav-mobile-trigger"
           >
-            {sideNavOpen ? <X size={20} /> : <Menu size={20} />}
+            {sideNavOpen ? <Close size={20} /> : <Menu size={20} />}
           </HeaderGlobalAction>
         </HeaderGlobalBar>
       </Header>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn, Camera } from "lucide-react";
+import { Close, ZoomIn, Camera } from "@carbon/icons-react";
 
 interface GalleryPhoto {
   src: string;
@@ -287,7 +287,7 @@ export default function GallerySection() {
                 e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
               }}
             >
-              <X size={20} />
+              <Close size={20} />
             </button>
 
             {/* Modal image container */}

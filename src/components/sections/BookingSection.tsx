@@ -5,9 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import {
-  User, CalendarDays, Building2,
-  Music, Send, CheckCircle2
-} from "lucide-react";
+  Person, Calendar, Building,
+  Music, Send, CheckmarkFilled
+} from "@carbon/icons-react";
 import { useState } from "react";
 import { bookingSchema, type BookingFormData } from "@/lib/booking-schema";
 import {
@@ -184,7 +184,7 @@ export default function BookingSection() {
               alignItems: "center",
               justifyContent: "center",
             }}>
-              <CheckCircle2 size={32} style={{ color: "var(--accent-gold)" }} />
+              <CheckmarkFilled size={32} style={{ color: "var(--accent-gold)" }} />
             </div>
             <div>
               <h3 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#ffffff", margin: "0 0 0.5rem" }}>
@@ -216,7 +216,7 @@ export default function BookingSection() {
 
                 {/* Contact Information */}
                 <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
-                  <SectionLegend icon={User} label="Contact Information" />
+                  <SectionLegend icon={Person} label="Contact Information" />
                   <Stack gap={5}>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 240px), 1fr))", gap: "1rem" }}>
                       <TextInput
@@ -251,7 +251,7 @@ export default function BookingSection() {
 
                 {/* Event Details */}
                 <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
-                  <SectionLegend icon={CalendarDays} label="Event Details" />
+                  <SectionLegend icon={Calendar} label="Event Details" />
                   <Stack gap={5}>
                     <Controller
                       name="eventType"
@@ -294,7 +294,7 @@ export default function BookingSection() {
 
                 {/* Venue */}
                 <fieldset style={{ border: "none", padding: 0, margin: 0 }}>
-                  <SectionLegend icon={Building2} label="Venue" />
+                  <SectionLegend icon={Building} label="Venue" />
                   <Stack gap={5}>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 240px), 1fr))", gap: "1rem" }}>
                       <TextInput

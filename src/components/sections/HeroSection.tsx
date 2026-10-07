@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowDown, Calendar, MapPin, Users } from "lucide-react";
+import { ArrowDown, Calendar, Location, UserMultiple } from "@carbon/icons-react";
 import { Button } from "@carbon/react";
 
 // ─── Animated waveform ────────────────────────────────────────────────────────
@@ -46,8 +46,8 @@ function Waveform({ bars = 32 }: { bars?: number }) {
 // ─── Stats row ────────────────────────────────────────────────────────────────
 const stats = [
   { icon: Calendar, value: "5+", label: "Events Played" },
-  { icon: MapPin, value: "30+", label: "Cities Worldwide" },
-  { icon: Users, value: "2M+", label: "Crowd Reached" },
+  { icon: Location, value: "30+", label: "Cities Worldwide" },
+  { icon: UserMultiple, value: "2M+", label: "Crowd Reached" },
 ];
 
 // ─── Motion variants ──────────────────────────────────────────────────────────

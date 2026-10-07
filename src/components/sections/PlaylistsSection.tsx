@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { Launch } from "@carbon/icons-react";
 
 type VibeCategory =
   | "All"
@@ -64,7 +64,7 @@ const playlists: Playlist[] = [
     description:
       "Timeless wedding classics and modern love songs crafted to soundtrack every moment of your special day.",
     vibe: "Wedding",
-    image: "/images/playlists/Wedding Bellls.png",
+    image: "/images/playlists/Wedding Bells.png",
     appleUrl:
       "https://music.apple.com/us/playlist/the-alexanders/pl.u-XkD0YV0cD44yovA",
     tags: ["Wedding", "Romance", "First Dance"],
@@ -83,7 +83,8 @@ const playlists: Playlist[] = [
   {
     id: "p6",
     title: "Fundraiser Dinner Party",
-    description: "Fundraiser.",
+    description:
+      "Clean, polished pop hits curated for upscale fundraiser dinner settings — the perfect backdrop for meaningful conversations and good company.",
     vibe: "Pop",
     image: "/images/playlists/fundraiser.jpeg",
     appleUrl: "https://music.apple.com/us/playlist/fundraiser/pl.u-zPyLAeYFZMMqErX",
@@ -91,8 +92,9 @@ const playlists: Playlist[] = [
   },
   {
     id: "p7",
-    title: "Millenial GNO",
-    description: "This one is for the girls, GNO.",
+    title: "Millennial GNO",
+    description:
+      "The ultimate girls' night out playlist — R&B, hip-hop, throwbacks, and pop anthems to keep the energy high all night long.",
     vibe: "Pop",
     image: "/images/playlists/gno.jpg",
     appleUrl:
@@ -103,7 +105,7 @@ const playlists: Playlist[] = [
     id: "p8",
     title: "Texas Grad",
     description:
-      "If you're from Texas, you'll know.",
+      "A celebration of Texas pride — the anthems, throwbacks, and regional hits that define graduation season in the Lone Star State.",
     vibe: "Hip-Hop",
     image: "/images/playlists/texasgrad.jpg",
     appleUrl:
@@ -380,7 +382,7 @@ export default function PlaylistsSection() {
                     paddingTop: "1rem",
                   }}
                 >
-                  <ExternalLink size={14} />
+                  <Launch size={14} />
                   Open in Apple Music
                 </a>
               </div>

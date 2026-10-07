@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import NextImage from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, MapPin, Music, Tag, Image as ImageIcon } from "lucide-react";
+import { Calendar, Location, Music, Tag, Image as ImageIcon } from "@carbon/icons-react";
 import { Tag as CarbonTag } from "@carbon/react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -258,7 +258,7 @@ export default function EventsSection() {
                   }}
                 >
                   {event.photo ? (
-                    <Image
+                    <NextImage
                       src={event.photo}
                       alt={event.title}
                       fill
@@ -275,7 +275,7 @@ export default function EventsSection() {
                         color: "#334155",
                       }}
                     >
-                      <ImageIcon size={32} strokeWidth={1} />
+                      <ImageIcon size={32} />
                       <span
                         style={{
                           fontSize: "0.6875rem",
@@ -354,12 +354,12 @@ export default function EventsSection() {
                   >
                     {[
                       {
-                        Icon: MapPin,
-                        text: event.venue.startsWith("TODO")
-                          ? "Venue — TBD"
-                          : `${event.venue}, ${event.city}`,
-                        isTodo: event.venue.startsWith("TODO"),
-                      },
+                         Icon: Location,
+                         text: event.venue.startsWith("TODO")
+                           ? "Venue — TBD"
+                           : `${event.venue}, ${event.city}`,
+                         isTodo: event.venue.startsWith("TODO"),
+                       },
                       {
                         Icon: Calendar,
                         text: event.date.startsWith("TODO")

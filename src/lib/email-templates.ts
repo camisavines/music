@@ -176,9 +176,9 @@ export function clientConfirmationEmail(data: BookingFormData): string {
               </div>
 
               <p style="margin:0;font-size:13px;color:#64748b;line-height:1.7;">
-                Questions? Reply to this email or reach out on Instagram at
-                <a href="https://instagram.com" style="color:#06d6f5;text-decoration:none;">@djNeva Misa Beat</a>.
-              </p>
+               Questions? Reply to this email or reach out on Instagram at
+               <a href="https://instagram.com/djnevamisabeat" style="color:#06d6f5;text-decoration:none;">@djnevamisabeat</a>.
+             </p>
             </td>
           </tr>
 

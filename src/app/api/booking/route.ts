@@ -19,7 +19,7 @@ async function sendEmail({
 
   const from = process.env.DJ_EMAIL
     ? `DJ Neva Misa Beat <bookings@${process.env.DJ_EMAIL.split("@")[1]}>`
-    : "DJ Neva Misa Beat <bookings@djNeva Misa Beat.com>";
+    : "DJ Neva Misa Beat <dj@camisavines.com>";
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",

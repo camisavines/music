@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Clock, DollarSign, ArrowDown, Info } from "lucide-react";
+import { Timer, CurrencyDollar, ArrowDown, Information } from "@carbon/icons-react";
 import { Button } from "@carbon/react";
 
 // ─── Pricing constants ────────────────────────────────────────────────────────
@@ -115,7 +115,7 @@ export default function QuoteEstimator() {
                   letterSpacing: "0.25em",
                 }}
               >
-                <Clock size={14} />
+                <Timer size={14} />
                 Performance Hours
               </label>
               <span style={{
@@ -217,7 +217,7 @@ export default function QuoteEstimator() {
             {/* Total */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "0.25rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <DollarSign size={16} style={{ color: "var(--accent-gold)" }} />
+                <CurrencyDollar size={16} style={{ color: "var(--accent-gold)" }} />
                 <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "#ffffff", textTransform: "uppercase", letterSpacing: "0.1em" }}>
                   Estimated Total
                 </span>
@@ -249,7 +249,7 @@ export default function QuoteEstimator() {
             border: "1px solid rgba(255,255,255,0.05)",
             padding: "0.75rem 1rem",
           }}>
-            <Info size={14} style={{ color: "#64748b", flexShrink: 0, marginTop: "2px" }} />
+            <Information size={14} style={{ color: "#64748b", flexShrink: 0, marginTop: "2px" }} />
             <p style={{ fontSize: "0.75rem", color: "#64748b", lineHeight: 1.6, margin: 0 }}>
               This is a starting estimate based on{" "}
               <span style={{ color: "#94a3b8" }}>{formatUSD(BASE_FEE)} base</span> +{" "}
