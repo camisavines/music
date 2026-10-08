@@ -20,6 +20,7 @@ const navLinks = [
   { href: "#gallery",   label: "Gallery" },
   { href: "#playlists", label: "Playlists" },
   { href: "#quote",     label: "Pricing" },
+  { href: "/vinyl",     label: "Vinyl Generator" },
 ];
 
 export default function Navigation() {

@@ -19,12 +19,12 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "DJ NevaMisaBeat | Professional DJ & Music Producer",
+  title: "DJ NevaMisaBeat | Professional DJ",
   description:
     "Book DJ NevaMisaBeat for your next event — weddings, clubs, corporate events, and private parties. Explore mixes, gear, and live sets.",
   keywords: ["DJ", "DJ NevaMisaBeat", "book a DJ", "wedding DJ", "club DJ", "event DJ", "music producer"],
   openGraph: {
-    title: "DJ NevaMisaBeat | Professional DJ & Music Producer",
+    title: "DJ NevaMisaBeat | Professional DJ",
     description: "Book DJ NevaMisaBeat for your next event.",
     type: "website",
   },
